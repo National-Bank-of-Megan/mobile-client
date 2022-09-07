@@ -18,15 +18,27 @@ import {
     Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto';
 import {useFonts} from "expo-font";
-import {NavigationContainer} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import TransfersScreen from "./screens/TransfersScreen";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HistoryScreen from "./screens/HistoryScreen";
 import CurrencyScreen from "./screens/CurrencyScreen";
 import AccountScreen from "./screens/AccountScreen";
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import Colors from "./constants/colors";
+// import {Icon} from "react-native-vector-icons/Icon";
 
-const Tab = createMaterialBottomTabNavigator();
+
+const Tab = createMaterialTopTabNavigator();
+const NavigationContainerTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Colors.MAIN_BACKGROUND
+  },
+};
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -40,12 +52,21 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Tab.Navigator screenOptions={{ }}>
+      <NavigationContainer theme={NavigationContainerTheme}>
+        <Tab.Navigator tabBarPosition='bottom' screenOptions={{
+          tabBarShowLabel: true,
+          tabBarLabelStyle: { fontSize: 12 },
+          tabBarShowIcon: true,
+          swipeEnabled: false,
+          tabBarStyle: { backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND },
+          tabBarActiveTintColor: Colors.PRIMARY,
+          tabBarInactiveTintColor: Colors.NAVIGATION_INACTIVE_TEXT
+        }}
+        >
           <Tab.Screen name="Transfers" component={TransfersScreen} options={{
             tabBarLabel: 'TRANSFERS',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="compare-arrows" color={color} size={26} />
+              <MaterialCommunityIcons name="compare-arrows" color={color} size={24} />
             ),
           }}/>
           <Tab.Screen name="History" component={HistoryScreen} options={{
@@ -57,7 +78,7 @@ export default function App() {
           <Tab.Screen name="Exchanges" component={CurrencyScreen} options={{
             tabBarLabel: 'EXCHANGES',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="attach-money" color={color} size={26} />
+              <MaterialCommunityIcons name="arrows-rotate" color={color} size={26} />
             ),
           }}/>
           <Tab.Screen name="Account" component={AccountScreen} options={{
