@@ -3,20 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import theme from "./theme";
 import AppLoading from "expo-app-loading";
-import {
-    Roboto_100Thin,
-    Roboto_100Thin_Italic,
-    Roboto_300Light,
-    Roboto_300Light_Italic,
-    Roboto_400Regular,
-    Roboto_400Regular_Italic,
-    Roboto_500Medium,
-    Roboto_500Medium_Italic,
-    Roboto_700Bold,
-    Roboto_700Bold_Italic,
-    Roboto_900Black,
-    Roboto_900Black_Italic
-} from '@expo-google-fonts/roboto';
+
 import {useFonts} from "expo-font";
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -28,6 +15,22 @@ import AccountScreen from "./screens/AccountScreen";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import Colors from "./constants/colors";
 // import {Icon} from "react-native-vector-icons/Icon";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {
+  Roboto_100Thin,
+  Roboto_100Thin_Italic,
+  Roboto_300Light,
+  Roboto_300Light_Italic,
+  Roboto_400Regular,
+  Roboto_400Regular_Italic,
+  Roboto_500Medium,
+  Roboto_500Medium_Italic,
+  Roboto_700Bold,
+  Roboto_700Bold_Italic,
+  Roboto_900Black,
+  Roboto_900Black_Italic
+} from '@expo-google-fonts/roboto';
+
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -42,7 +45,11 @@ const NavigationContainerTheme = {
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-
+    'roboto-bold': Roboto_700Bold,
+    'roboto-medium': Roboto_500Medium,
+    'roboto': Roboto_400Regular,
+    'roboto-light': Roboto_300Light,
+    'roboto-thin': Roboto_100Thin,
   })
 
   if (!fontsLoaded) {
@@ -52,6 +59,7 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <StatusBar style="light" />
+      <SafeAreaProvider>
       <NavigationContainer theme={NavigationContainerTheme}>
         <Tab.Navigator tabBarPosition='bottom' screenOptions={{
           tabBarShowLabel: true,
@@ -89,6 +97,7 @@ export default function App() {
           }}/>
         </Tab.Navigator>
       </NavigationContainer>
+      </SafeAreaProvider>
     </PaperProvider>
   );
 }
