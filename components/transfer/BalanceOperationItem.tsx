@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   operationName: {
+    marginTop: 3,
     textAlign: 'center',
     color: Colors.SECONDARY,
     letterSpacing: 0.15,

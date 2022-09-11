@@ -42,7 +42,7 @@ const SelectSubaccount = () => {
               underlineColor: Colors.PRIMARY,
               style: {
                 backgroundColor: Colors.MAIN_BACKGROUND,
-                fontSize: 20,
+                fontSize: 18,
                 height: 50
               },
             }}
@@ -62,7 +62,6 @@ const SelectSubaccount = () => {
             value={gender}
             setValue={setGender}
             list={genderList}
-
           />
         </View>
       </Provider>

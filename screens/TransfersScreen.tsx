@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import {View, StyleSheet, ScrollView} from "react-native";
 import TotalBalance from "../components/transfer/TotalBalance";
 import {HelperText, Provider, withTheme} from "react-native-paper";
 import {SafeAreaView} from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import theme from "../theme";
 import Colors from "../constants/colors";
 import SelectSubAccount from "../components/transfer/SelectSubaccount";
 import BalanceOperations from "../components/transfer/BalanceOperations";
+import RecentActivity from "../components/transfer/RecentActivity";
 
 
 
@@ -15,11 +16,13 @@ const TransfersScreen = () => {
 
 
   return (
-      <SafeAreaView style={styles.container}>
-        <TotalBalance />
-
+      <SafeAreaView style={styles.mainContainer}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <TotalBalance />
           <SelectSubAccount />
           <BalanceOperations />
+          <RecentActivity />
+        </ScrollView>
       </SafeAreaView>
   );
 }
@@ -27,8 +30,9 @@ const TransfersScreen = () => {
 export default withTheme(TransfersScreen);
 
 const styles = StyleSheet.create({
+  mainContainer: {
+  },
   container: {
-    flex: 1,
     alignItems: 'center',
     padding: 8,
     marginTop: 20,

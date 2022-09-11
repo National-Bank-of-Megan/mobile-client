@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Text, Provider as PaperProvider } from 'react-native-paper';
 import theme from "./theme";
 import AppLoading from "expo-app-loading";
 
@@ -30,6 +30,7 @@ import {
   Roboto_900Black,
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto';
+import {Entypo, Fontisto} from "@expo/vector-icons";
 
 
 
@@ -74,25 +75,26 @@ export default function App() {
           <Tab.Screen name="Transfers" component={TransfersScreen} options={{
             tabBarLabel: 'TRANSFERS',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="compare-arrows" color={color} size={24} />
+              <Entypo name="swap" color={color} size={24} style={styles.tabIcon} />
             ),
           }}/>
           <Tab.Screen name="History" component={HistoryScreen} options={{
             tabBarLabel: 'HISTORY',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="history" color={color} size={26} />
+              <MaterialCommunityIcons name="history" color={color} size={26} style={styles.tabIcon} />
             ),
           }}/>
           <Tab.Screen name="Exchanges" component={CurrencyScreen} options={{
             tabBarLabel: 'EXCHANGES',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="arrows-rotate" color={color} size={26} />
+              // <Fontisto name="dollar" color={color} size={26} style={styles.tabIcon} />
+              <Text style={[styles.tabLetterIcon, { color: color }]}>$</Text>
             ),
           }}/>
           <Tab.Screen name="Account" component={AccountScreen} options={{
             tabBarLabel: 'ACCOUNT',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="account-circle" color={color} size={26} />
+              <MaterialCommunityIcons name="account-circle" color={color} size={26} style={styles.tabIcon} />
             ),
           }}/>
         </Tab.Navigator>
@@ -101,3 +103,17 @@ export default function App() {
     </PaperProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    textAlign: 'center'
+  },
+  tabLetterIcon: {
+    textAlign: 'center',
+    fontSize: 23,
+    fontWeight: "400",
+    height: 30,
+    position: 'relative',
+    bottom: 2.5
+  }
+});
