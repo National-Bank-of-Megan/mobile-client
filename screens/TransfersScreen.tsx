@@ -13,25 +13,19 @@ import RecentActivity from "../components/transfer/RecentActivity";
 
 
 const TransfersScreen = () => {
-
-
   return (
-      <SafeAreaView style={styles.mainContainer}>
-        <ScrollView contentContainerStyle={styles.container}>
-          <TotalBalance />
-          <SelectSubAccount />
-          <BalanceOperations />
-          <RecentActivity />
-        </ScrollView>
-      </SafeAreaView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <TotalBalance />
+      <SelectSubAccount />
+      <BalanceOperations />
+      <RecentActivity />
+    </ScrollView>
   );
 }
 
 export default withTheme(TransfersScreen);
 
 const styles = StyleSheet.create({
-  mainContainer: {
-  },
   container: {
     alignItems: 'center',
     padding: 8,

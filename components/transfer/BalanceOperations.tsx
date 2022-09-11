@@ -40,7 +40,10 @@ const BalanceOperations = () => {
   return (
     <View style={styles.container}>
       {balanceOperationItems.map(balanceOperationItem =>
-        <BalanceOperationItem key={balanceOperationItem.id} color={balanceOperationItem.color} operationName={balanceOperationItem.operationName} iconName={balanceOperationItem.iconName} />
+        <BalanceOperationItem key={balanceOperationItem.id}
+                              color={balanceOperationItem.color}
+                              operationName={balanceOperationItem.operationName}
+                              iconName={balanceOperationItem.iconName} />
       )}
     </View>
   );
@@ -50,8 +53,9 @@ export default withTheme(BalanceOperations);
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: -1,
-    marginTop: 55,
+
+
+    marginTop: 45,
     width: '90%',
     flexDirection: 'row',
     justifyContent: 'space-between'

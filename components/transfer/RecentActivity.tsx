@@ -60,7 +60,7 @@ export default withTheme(RecentActivity);
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: -1,
+
     minWidth: "90%",
     marginTop: 40
   },

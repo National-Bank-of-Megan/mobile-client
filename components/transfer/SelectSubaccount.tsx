@@ -1,5 +1,5 @@
-import {HelperText, Provider, withTheme} from "react-native-paper";
-import {StyleSheet, View} from "react-native";
+import {HelperText, Provider, Surface, withTheme} from "react-native-paper";
+import {SafeAreaView, StyleSheet, Text, View} from "react-native";
 import DropDown from "react-native-paper-dropdown";
 import Colors from "../../constants/colors";
 import {useState} from "react";
@@ -33,7 +33,7 @@ const SelectSubaccount = () => {
       <HelperText type="info" style={styles.helperTextStyle}>
         Currency balance
       </HelperText>
-      <Provider theme={theme}>
+      <Surface style={styles.container}>
         <View style={styles.dropDownContainer}>
           <DropDown
             theme={{ colors: { text: Colors.SECONDARY } }}
@@ -49,9 +49,6 @@ const SelectSubaccount = () => {
             dropDownItemTextStyle={{
               color: Colors.SECONDARY
             }}
-            dropDownStyle={{
-              backgroundColor: Colors.MAIN_BACKGROUND
-            }}
             dropDownItemStyle={{
               borderColor: Colors.PRIMARY
             }}
@@ -64,7 +61,7 @@ const SelectSubaccount = () => {
             list={genderList}
           />
         </View>
-      </Provider>
+      </Surface>
     </>
   );
 }
@@ -72,8 +69,12 @@ const SelectSubaccount = () => {
 export default withTheme(SelectSubaccount);
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   dropDownContainer: {
-    minWidth: '90%'
+    minWidth: '90%',
+    flex: 1
   },
   helperTextStyle: {
     color: Colors.HELPER_TEXT,

@@ -6,12 +6,6 @@ const RecentActivityCard: React.FC<{ title: string, amount: string, date: string
   const { fonts, colors } = useTheme();
 
   return (
-    // <Card style={styles.cardContainer}>
-    //   <Card.Content style={styles.cardContainer}>
-    //     <Title style={{ color: 'green' }}>Card title</Title>
-    //     <Paragraph>Card content</Paragraph>
-    //   </Card.Content>
-    // </Card>
     <View style={styles.cardContainer}>
       <View style={styles.cardContent}>
         <View>

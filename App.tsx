@@ -31,10 +31,13 @@ import {
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto';
 import {Entypo, Fontisto} from "@expo/vector-icons";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
 
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createNativeStackNavigator();
+
 const NavigationContainerTheme = {
   ...DefaultTheme,
   colors: {
@@ -43,6 +46,46 @@ const NavigationContainerTheme = {
   },
 };
 
+const MainNavigationTabs = () => {
+  return (
+    <Tab.Navigator tabBarPosition='bottom' screenOptions={{
+      tabBarShowLabel: true,
+      tabBarLabelStyle: { fontSize: 12 },
+      tabBarShowIcon: true,
+      swipeEnabled: false,
+      tabBarStyle: { backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND },
+      tabBarActiveTintColor: Colors.PRIMARY,
+      tabBarInactiveTintColor: Colors.NAVIGATION_INACTIVE_TEXT
+    }}
+    >
+      <Tab.Screen name="Transfers" component={TransfersScreen} options={{
+        tabBarLabel: 'TRANSFERS',
+        tabBarIcon: ({ color }) => (
+          <Entypo name="swap" color={color} size={24} style={styles.tabIcon} />
+        ),
+      }}/>
+      <Tab.Screen name="History" component={HistoryScreen} options={{
+        tabBarLabel: 'HISTORY',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="history" color={color} size={26} style={styles.tabIcon} />
+        ),
+      }}/>
+      <Tab.Screen name="Exchanges" component={CurrencyScreen} options={{
+        tabBarLabel: 'EXCHANGES',
+        tabBarIcon: ({ color }) => (
+          // <Fontisto name="dollar" color={color} size={26} style={styles.tabIcon} />
+          <Text style={[styles.tabLetterIcon, { color: color }]}>$</Text>
+        ),
+      }}/>
+      <Tab.Screen name="Account" component={AccountScreen} options={{
+        tabBarLabel: 'ACCOUNT',
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="account-circle" color={color} size={26} style={styles.tabIcon} />
+        ),
+      }}/>
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -59,47 +102,13 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <StatusBar style="light" />
-      <SafeAreaProvider>
-      <NavigationContainer theme={NavigationContainerTheme}>
-        <Tab.Navigator tabBarPosition='bottom' screenOptions={{
-          tabBarShowLabel: true,
-          tabBarLabelStyle: { fontSize: 12 },
-          tabBarShowIcon: true,
-          swipeEnabled: false,
-          tabBarStyle: { backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND },
-          tabBarActiveTintColor: Colors.PRIMARY,
-          tabBarInactiveTintColor: Colors.NAVIGATION_INACTIVE_TEXT
-        }}
-        >
-          <Tab.Screen name="Transfers" component={TransfersScreen} options={{
-            tabBarLabel: 'TRANSFERS',
-            tabBarIcon: ({ color }) => (
-              <Entypo name="swap" color={color} size={24} style={styles.tabIcon} />
-            ),
-          }}/>
-          <Tab.Screen name="History" component={HistoryScreen} options={{
-            tabBarLabel: 'HISTORY',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="history" color={color} size={26} style={styles.tabIcon} />
-            ),
-          }}/>
-          <Tab.Screen name="Exchanges" component={CurrencyScreen} options={{
-            tabBarLabel: 'EXCHANGES',
-            tabBarIcon: ({ color }) => (
-              // <Fontisto name="dollar" color={color} size={26} style={styles.tabIcon} />
-              <Text style={[styles.tabLetterIcon, { color: color }]}>$</Text>
-            ),
-          }}/>
-          <Tab.Screen name="Account" component={AccountScreen} options={{
-            tabBarLabel: 'ACCOUNT',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="account-circle" color={color} size={26} style={styles.tabIcon} />
-            ),
-          }}/>
-        </Tab.Navigator>
-      </NavigationContainer>
-      </SafeAreaProvider>
+      {/*removed saveAreaProvider (safeAreaView provided by default with stack header). If headerVisible=false, then provide safeAreaView explicitly*/}
+      <StatusBar style="dark" />
+        <NavigationContainer theme={NavigationContainerTheme}>
+          <Stack.Navigator>
+            <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
+          </Stack.Navigator>
+        </NavigationContainer>
     </PaperProvider>
   );
 }
