@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import { Text, Provider as PaperProvider } from 'react-native-paper';
 import theme from "./theme";
 import AppLoading from "expo-app-loading";
@@ -14,7 +14,7 @@ import CurrencyScreen from "./screens/CurrencyScreen";
 import AccountScreen from "./screens/AccountScreen";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import Colors from "./constants/colors";
-// import {Icon} from "react-native-vector-icons/Icon";
+import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   Roboto_100Thin,
@@ -30,8 +30,9 @@ import {
   Roboto_900Black,
   Roboto_900Black_Italic
 } from '@expo-google-fonts/roboto';
-import {Entypo, Fontisto} from "@expo/vector-icons";
+import {Entypo, Feather, Fontisto} from "@expo/vector-icons";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {useCallback, useEffect, useState} from "react";
 
 
 
@@ -73,7 +74,6 @@ const MainNavigationTabs = () => {
       <Tab.Screen name="Exchanges" component={CurrencyScreen} options={{
         tabBarLabel: 'EXCHANGES',
         tabBarIcon: ({ color }) => (
-          // <Fontisto name="dollar" color={color} size={26} style={styles.tabIcon} />
           <Text style={[styles.tabLetterIcon, { color: color }]}>$</Text>
         ),
       }}/>
@@ -87,7 +87,10 @@ const MainNavigationTabs = () => {
   );
 }
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+
   const [fontsLoaded] = useFonts({
     'roboto-bold': Roboto_700Bold,
     'roboto-medium': Roboto_500Medium,
@@ -96,16 +99,39 @@ export default function App() {
     'roboto-thin': Roboto_100Thin,
   })
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />
+    return null;
   }
 
   return (
     <PaperProvider theme={theme}>
       {/*removed saveAreaProvider (safeAreaView provided by default with stack header). If headerVisible=false, then provide safeAreaView explicitly*/}
-      <StatusBar style="dark" />
-        <NavigationContainer theme={NavigationContainerTheme}>
-          <Stack.Navigator>
+      <StatusBar style="light" />
+        <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
+          <Stack.Navigator screenOptions={{
+            title: 'NBM',
+            headerStyle: {
+              backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND,
+            },
+            headerTintColor: Colors.SECONDARY,
+            headerTitleAlign: "center",
+            headerLeft: () => (
+              <Pressable>
+                <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon} />
+              </Pressable>
+            )
+          }}>
             <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
           </Stack.Navigator>
         </NavigationContainer>
@@ -116,6 +142,10 @@ export default function App() {
 const styles = StyleSheet.create({
   tabIcon: {
     textAlign: 'center'
+  },
+  headerIcon: {
+    textAlign: 'center',
+    marginLeft: '5%'
   },
   tabLetterIcon: {
     textAlign: 'center',

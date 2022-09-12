@@ -26,7 +26,7 @@ const balanceOperationItems = [
     id: 3,
     color: Colors.BALANCE_OPERATIONS.EXCHANGE,
     operationName: "EXCHANGE",
-    iconName: "heart"
+    iconName: "repeat"
   },
   {
     id: 4,
