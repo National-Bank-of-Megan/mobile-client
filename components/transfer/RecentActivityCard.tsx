@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   cardDate: {
-    color: Colors.DATE,
+    color: Colors.COMPONENT_TEXT,
     fontSize: 14,
   },
   amountContainer: {

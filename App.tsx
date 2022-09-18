@@ -33,6 +33,10 @@ import {
 import {Entypo, Feather, Fontisto} from "@expo/vector-icons";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useCallback, useEffect, useState} from "react";
+import TransferFormScreen from "./screens/TransferFormScreen";
+import AddMoneyScreen from "./screens/AddMoneyScreen";
+import KlikCodeScreen from "./screens/KlikCodeScreen";
+import KlikPaymentScreen from "./screens/KlikPaymentScreen";
 
 
 
@@ -133,6 +137,10 @@ export default function App() {
             )
           }}>
             <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
+            <Stack.Screen name="TransferForm" component={TransferFormScreen} />
+            <Stack.Screen name="AddMoneyForm" component={AddMoneyScreen} />
+            <Stack.Screen name="KlickCode" component={KlikCodeScreen} />
+            <Stack.Screen name="KlikPayment" component={KlikPaymentScreen} />
           </Stack.Navigator>
         </NavigationContainer>
     </PaperProvider>

@@ -23,7 +23,7 @@ const TransfersScreen = () => {
   );
 }
 
-export default withTheme(TransfersScreen);
+export default TransfersScreen;
 
 const styles = StyleSheet.create({
   container: {

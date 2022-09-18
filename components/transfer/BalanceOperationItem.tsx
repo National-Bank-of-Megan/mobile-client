@@ -1,10 +1,18 @@
-import {Pressable, StyleSheet, View} from "react-native";
+import {GestureResponderEvent, Pressable, StyleSheet, View} from "react-native";
 import Colors from "../../constants/colors";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {Text, useTheme, withTheme} from "react-native-paper";
+import {useNavigation} from "@react-navigation/native";
 
-const BalanceOperationItem: React.FC<{ color: string, operationName: string, iconName: string }> = ({ operationName, color, iconName }) => {
+const BalanceOperationItem: React.FC<{
+  color: string,
+  operationName: string,
+  iconName: string,
+  onPress: (event: GestureResponderEvent) => void
+}> = ({ operationName, color, iconName, onPress }) => {
+
   const { fonts, colors } = useTheme();
+  const navigation = useNavigation();
 
   let icon: any = <Text style={[styles.letterIcon, fonts.medium]}>{iconName}</Text>;
   if (iconName.length > 1) {
@@ -13,7 +21,7 @@ const BalanceOperationItem: React.FC<{ color: string, operationName: string, ico
 
   return (
     <View style={styles.container}>
-      <Pressable>
+      <Pressable onPress={onPress}>
         <View style={[styles.balanceOperationBlock, { backgroundColor: color }]}>
           {icon}
         </View>
