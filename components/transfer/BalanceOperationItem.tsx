@@ -12,7 +12,6 @@ const BalanceOperationItem: React.FC<{
 }> = ({ operationName, color, iconName, onPress }) => {
 
   const { fonts, colors } = useTheme();
-  const navigation = useNavigation();
 
   let icon: any = <Text style={[styles.letterIcon, fonts.medium]}>{iconName}</Text>;
   if (iconName.length > 1) {

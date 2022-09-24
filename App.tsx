@@ -7,7 +7,7 @@ import AppLoading from "expo-app-loading";
 import {useFonts} from "expo-font";
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import TransfersScreen from "./screens/TransfersScreen";
+import TransfersScreen, {SubAccountCurrencyBalance} from "./screens/TransfersScreen";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HistoryScreen from "./screens/HistoryScreen";
 import CurrencyScreen from "./screens/CurrencyScreen";
@@ -39,9 +39,16 @@ import KlikCodeScreen from "./screens/KlikCodeScreen";
 import KlikPaymentScreen from "./screens/KlikPaymentScreen";
 
 
+export type RootStackParamList = {
+  TabsMain: undefined;
+  TransferForm: { subAccountBalanceList: SubAccountCurrencyBalance[] };
+  AddMoneyForm: { subAccountBalanceList: SubAccountCurrencyBalance[] };
+  KlikCode: undefined;
+  KlikPayment: undefined;
+};
 
 const Tab = createMaterialTopTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const NavigationContainerTheme = {
   ...DefaultTheme,
@@ -139,7 +146,7 @@ export default function App() {
             <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
             <Stack.Screen name="TransferForm" component={TransferFormScreen} />
             <Stack.Screen name="AddMoneyForm" component={AddMoneyScreen} />
-            <Stack.Screen name="KlickCode" component={KlikCodeScreen} />
+            <Stack.Screen name="KlikCode" component={KlikCodeScreen} />
             <Stack.Screen name="KlikPayment" component={KlikPaymentScreen} />
           </Stack.Navigator>
         </NavigationContainer>

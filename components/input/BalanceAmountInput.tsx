@@ -6,12 +6,16 @@ import InputTheme from "../../constants/input-theme";
 
 const BalanceAmountInput: React.FC<{
   showDialog: () => void;
-}> = ({showDialog}) => {
+  selectedCurrencySymbol: string;
+}> = ({showDialog, selectedCurrencySymbol}) => {
+
+
+
   return (
     <View style={styles.amountContainer}>
-      <TextInput keyboardType = 'numeric' label='Amount' style={[styles.inputStyle, styles.leftInput]} theme={InputTheme} />
+      <TextInput keyboardType='numeric' label='Amount' style={[styles.inputStyle, styles.leftInput]} theme={InputTheme} />
       <Button icon="chevron-down" labelStyle={{ fontSize: 17 }} color={Colors.COMPONENT_TEXT} uppercase={false} style={styles.rightButton}
-              onPress={showDialog} contentStyle={styles.buttonIcon}>$</Button>
+              onPress={showDialog} contentStyle={styles.buttonIcon}>{selectedCurrencySymbol}</Button>
     </View>
   );
 }

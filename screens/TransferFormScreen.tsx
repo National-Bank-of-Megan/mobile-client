@@ -6,32 +6,39 @@ import {useState} from "react";
 import InputTheme from "../constants/input-theme";
 import BalanceAmountInput from "../components/input/BalanceAmountInput";
 import TransferForm from "../components/form/TransferForm";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {SubAccountCurrencyBalance} from "./TransfersScreen";
+import {RootStackParamList} from "../App";
+import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
+import SelectCurrencyDialog from "../components/dialog/SelectCurrencyDialog";
+import {findCurrencyByName, findCurrencySymbolByCurrencyName} from "../common/transfer";
+
+type Props = RouteProp<RootStackParamList, 'TransferForm'>;
 
 const TransferFormScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute<Props>();
+  const subAccountBalanceList = route.params.subAccountBalanceList;
 
-  const [visible, setVisible] = useState(false);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [selectedCurrencyName, setSelectedCurrencyName] = useState<string>("PLN");
 
-  const showDialog = () => setVisible(true);
-
-  const hideDialog = () => setVisible(false);
+  const showDialog = () => setIsDialogVisible(true);
+  const hideDialog = () => setIsDialogVisible(false);
 
   return (
     <>
     <Portal>
-      <Dialog visible={visible} onDismiss={hideDialog}>
-        <Dialog.Title>Alert</Dialog.Title>
-        <Dialog.Content>
-          <Paragraph>This is simple dialog</Paragraph>
-        </Dialog.Content>
-        <Dialog.Actions>
-          <Button onPress={hideDialog}>Done</Button>
-        </Dialog.Actions>
-      </Dialog>
+      <SelectCurrencyDialog isDialogVisible={isDialogVisible}
+                            hideDialog={hideDialog}
+                            subAccountBalanceList={subAccountBalanceList}
+                            selectedCurrencyName={selectedCurrencyName}
+                            setSelectedCurrencyName={setSelectedCurrencyName}/>
     </Portal>
 
     <View style={GlobalStyles.container}>
       <Headline style={GlobalStyles.headline}>New transfer</Headline>
-      <TransferForm showDialog={showDialog} />
+      <TransferForm showDialog={showDialog} subAccountBalanceList={subAccountBalanceList} selectedCurrencyName={selectedCurrencyName} />
       <Button mode='contained' style={styles.transferButton} labelStyle={GlobalStyles.buttonLabel}>TRANSFER MONEY</Button>
     </View>
     </>
