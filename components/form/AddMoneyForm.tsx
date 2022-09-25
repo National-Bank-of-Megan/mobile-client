@@ -4,16 +4,42 @@ import InputTheme from "../../constants/input-theme";
 import BalanceAmountInput from "../input/BalanceAmountInput";
 import GlobalStyles from "../../global-styles";
 import Colors from "../../constants/colors";
-import {findCurrencySymbolByCurrencyName} from "../../common/transfer";
+import {findCurrencyByName, findCurrencySymbolByCurrencyName, removeNonDigits} from "../../common/transfer";
 import {SubAccountCurrencyBalance} from "../../screens/TransfersScreen";
 import {FormProps} from "../../common/types";
+import Decimal from "decimal.js";
+import {useEffect} from "react";
+import useInput from "../../hook/use-input";
+import {isValidAmount} from "../../common/validation";
+import useNumericInput from "../../hook/use-numeric-input";
+import {shouldUpdateCurrencyInput} from "../../common/update";
 
 const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, selectedCurrencyName}) => {
+
+  const {
+    value: addBalanceValue,
+    isValid: addBalanceValueIsValid,
+    hasError: addBalanceHasError,
+    setIsTouched: setIsAddBalanceTouched,
+    valueChangeHandler: addBalanceChangeHandler,
+    inputBlurHandler: addBalanceBlurHandler,
+    clearInput: clearAddBalanceValue
+  } = useNumericInput(isValidAmount, '', shouldUpdateCurrencyInput);
+
+
+  const foundCurrency = findCurrencyByName(selectedCurrencyName, subAccountBalanceList)!;
+
   return (
     <View style={styles.formView}>
-      <BalanceAmountInput showDialog={showDialog} selectedCurrencySymbol={findCurrencySymbolByCurrencyName(subAccountBalanceList, selectedCurrencyName)} />
+      <BalanceAmountInput showDialog={showDialog} selectedCurrencySymbol={foundCurrency.symbol}
+                          value={addBalanceValue}
+                          onChangeText={addBalanceChangeHandler}
+                          onBlur={addBalanceBlurHandler}
+                          error={addBalanceHasError}/>
       <View style={styles.balanceInfoContainer}>
-        <Text style={styles.balanceText}>Currency balance after money load: 320,84 $ </Text>
+        <Text style={styles.balanceText}>
+          <>Currency balance after money load: {addBalanceValue.trim() !== '' ? Decimal.add(foundCurrency.balance, addBalanceValue).toString() : foundCurrency.balance.toString()} {foundCurrency.symbol}</>
+        </Text>
         <Text style={styles.balanceText}>Total balance after money load: 15.253,51 PLN </Text>
       </View>
     </View>
@@ -32,7 +58,7 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   balanceInfoContainer: {
-    marginTop: 10
+
   },
   balanceText: {
     fontSize: 12,

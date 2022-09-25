@@ -30,6 +30,9 @@ const GlobalStyles = StyleSheet.create({
     height: 60,
     paddingHorizontal: 0
   },
+  inputHelperText: {
+    paddingHorizontal: 0
+  }
 });
 
 export default GlobalStyles;
