@@ -38,6 +38,7 @@ import AddMoneyScreen from "./screens/AddMoneyScreen";
 import KlikCodeScreen from "./screens/KlikCodeScreen";
 import KlikPaymentScreen from "./screens/KlikPaymentScreen";
 import {AlertState} from "./components/alert/AlertSnackBar";
+import LoginScreen from './screens/LoginScreen';
 
 
 export type RootStackParamList = {
@@ -47,6 +48,7 @@ export type RootStackParamList = {
   AddMoneyForm: { subAccountBalanceList: SubAccountCurrencyBalance[] };
   KlikCode: undefined;
   KlikPayment: undefined;
+  Login: undefined;
 };
 
 const Tab = createMaterialTopTabNavigator();
@@ -127,6 +129,8 @@ export default function App() {
     return null;
   }
 
+  const isUserLoggedIn = true;
+
   return (
     <PaperProvider theme={theme}>
       {/*removed saveAreaProvider (safeAreaView provided by default with stack header). If headerVisible=false, then provide safeAreaView explicitly*/}
@@ -145,11 +149,21 @@ export default function App() {
               </Pressable>
             )
           }}>
-            <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
-            <Stack.Screen name="TransferForm" component={TransferFormScreen} />
-            <Stack.Screen name="AddMoneyForm" component={AddMoneyScreen} />
-            <Stack.Screen name="KlikCode" component={KlikCodeScreen} />
-            <Stack.Screen name="KlikPayment" component={KlikPaymentScreen} />
+            {
+              isUserLoggedIn &&
+              <>
+              <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
+              <Stack.Screen name="TransferForm" component={TransferFormScreen} />
+              <Stack.Screen name="AddMoneyForm" component={AddMoneyScreen} />
+              <Stack.Screen name="KlikCode" component={KlikCodeScreen} />
+              <Stack.Screen name="KlikPayment" component={KlikPaymentScreen} />
+              </>
+            }
+            {
+              !isUserLoggedIn &&
+              <Stack.Screen name="Login" component={LoginScreen} />
+            }
+
           </Stack.Navigator>
         </NavigationContainer>
     </PaperProvider>
