@@ -11,7 +11,6 @@ import {findCurrencySymbolByCurrencyName} from "../common/transfer";
 
 const AddMoneyScreen = () => {
 
-  const navigation = useNavigation();
   const route = useRoute<RouteProp<RootStackParamList, 'AddMoneyForm'>>();
   const subAccountBalanceList = route.params.subAccountBalanceList;
 
@@ -34,7 +33,6 @@ const AddMoneyScreen = () => {
       <View style={GlobalStyles.container}>
         <Headline style={GlobalStyles.headline}>Add money</Headline>
         <AddMoneyForm showDialog={showDialog} subAccountBalanceList={subAccountBalanceList} selectedCurrencyName={selectedCurrencyName} />
-        <Button mode='contained' style={styles.addMoneyButton} labelStyle={GlobalStyles.buttonLabel}>add money</Button>
       </View>
     </>
   );
@@ -43,7 +41,5 @@ const AddMoneyScreen = () => {
 export default AddMoneyScreen;
 
 const styles = StyleSheet.create({
-  addMoneyButton: {
-    marginTop: 50
-  }
+
 });

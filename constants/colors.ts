@@ -16,7 +16,9 @@ const Colors = {
     KLIK: "#FFB74D",
     EXCHANGE: "#007AFF",
     ADD_FRIEND: "#81C784"
-  }
+  },
+  SNACKBAR_SUCCESS: "#388E3C",
+  SNACKBAR_FAILURE: "#D32F2F"
 }
 
 export default Colors;

@@ -37,10 +37,12 @@ import TransferFormScreen from "./screens/TransferFormScreen";
 import AddMoneyScreen from "./screens/AddMoneyScreen";
 import KlikCodeScreen from "./screens/KlikCodeScreen";
 import KlikPaymentScreen from "./screens/KlikPaymentScreen";
+import {AlertState} from "./components/alert/AlertSnackBar";
 
 
 export type RootStackParamList = {
   TabsMain: undefined;
+  Transfers: { alertState: AlertState } | undefined;
   TransferForm: { subAccountBalanceList: SubAccountCurrencyBalance[] };
   AddMoneyForm: { subAccountBalanceList: SubAccountCurrencyBalance[] };
   KlikCode: undefined;
