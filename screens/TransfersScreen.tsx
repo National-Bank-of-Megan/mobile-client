@@ -37,17 +37,17 @@ const DUMMY_SUBACCOUNTS: SubAccountCurrencyBalance[] = [
   {
     currency: 'EUR',
     symbol: '€',
-    balance: new Decimal(1025.0)
+    balance: new Decimal(1000.0)
   },
   {
     currency: 'USD',
     symbol: '$',
-    balance: new Decimal(1025.0)
+    balance: new Decimal(100.0)
   },
   {
     currency: 'CHF',
     symbol: 'Fr',
-    balance: new Decimal(1025.0)
+    balance: new Decimal(0.0)
   },
   {
     currency: 'GBP',
@@ -68,7 +68,6 @@ const TransfersScreen = () => {
 
   useEffect(() => {
     if (route.params?.alertState) {
-      console.log(route.params.alertState)
       setAlertSnackBarState(route.params.alertState);
     }
   }, [route.params?.alertState])

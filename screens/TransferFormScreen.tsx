@@ -39,7 +39,6 @@ const TransferFormScreen = () => {
     <View style={GlobalStyles.container}>
       <Headline style={GlobalStyles.headline}>New transfer</Headline>
       <TransferForm showDialog={showDialog} subAccountBalanceList={subAccountBalanceList} selectedCurrencyName={selectedCurrencyName} />
-      <Button mode='contained' style={styles.transferButton} labelStyle={GlobalStyles.buttonLabel}>TRANSFER MONEY</Button>
     </View>
     </>
   );
@@ -48,7 +47,5 @@ const TransferFormScreen = () => {
 export default TransferFormScreen;
 
 const styles = StyleSheet.create({
-  transferButton: {
-    marginTop: 50
-  }
+
 });

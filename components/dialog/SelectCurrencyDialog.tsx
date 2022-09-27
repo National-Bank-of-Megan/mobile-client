@@ -25,7 +25,7 @@ const SelectCurrencyDialog: React.FC<{
           {subAccountBalanceList?.map((subAccountBalance) =>
             <View key={subAccountBalance.currency} style={styles.row}>
               <RadioButton color={Colors.PRIMARY} uncheckedColor={Colors.SECONDARY} value={subAccountBalance.currency} />
-              <Text style={styles.text}>{subAccountBalance.currency}</Text>
+              <Text style={styles.text}>{subAccountBalance.currency + ' - ' + subAccountBalance.balance + ' ' + subAccountBalance.symbol}</Text>
             </View>
           )}
         </RadioButton.Group>

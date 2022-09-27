@@ -29,7 +29,7 @@ const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, 
     clearInput: clearAddBalanceValue
   } = useNumericInput(isValidAmount, '', shouldUpdateCurrencyInput);
 
-  const handleAddToBalance = () => {
+  const handleAddBalanceSuccessResponse = () => {
     const alertState: AlertState = {
       color: Colors.SNACKBAR_SUCCESS,
       isOpen: true,
@@ -45,7 +45,7 @@ const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, 
       setIsAddBalanceTouched(true);
       return;
     }
-    handleAddToBalance();
+    handleAddBalanceSuccessResponse();
   }
 
   const foundCurrency = findCurrencyByName(selectedCurrencyName, subAccountBalanceList)!;

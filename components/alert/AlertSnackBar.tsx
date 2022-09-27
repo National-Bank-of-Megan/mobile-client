@@ -11,7 +11,6 @@ export type AlertState = {
 
 const AlertSnackBar: React.FC<{ alertState: UseStateType<AlertState> }> = ({alertState}) => {
 
-
   return (
     <Snackbar
       visible={alertState.state.isOpen}
@@ -22,7 +21,7 @@ const AlertSnackBar: React.FC<{ alertState: UseStateType<AlertState> }> = ({aler
       theme={{ colors: { surface: Colors.SECONDARY } }}
       style={[styles.snackBar, { backgroundColor: alertState.state.color }]}
     >
-      {alertState.state.message}
+      <Text style={styles.message}>{alertState.state.message}</Text>
     </Snackbar>
   );
 }
@@ -32,5 +31,8 @@ export default AlertSnackBar;
 const styles = StyleSheet.create({
   snackBar: {
     borderRadius: 5
+  },
+  message: {
+    color: Colors.SECONDARY
   }
 });
