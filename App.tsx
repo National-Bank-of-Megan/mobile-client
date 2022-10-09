@@ -32,13 +32,16 @@ import {
 } from '@expo-google-fonts/roboto';
 import {Entypo, Feather, Fontisto} from "@expo/vector-icons";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import TransferFormScreen from "./screens/TransferFormScreen";
 import AddMoneyScreen from "./screens/AddMoneyScreen";
 import KlikCodeScreen from "./screens/KlikCodeScreen";
 import KlikPaymentScreen from "./screens/KlikPaymentScreen";
 import {AlertState} from "./components/alert/AlertSnackBar";
 import LoginScreen from './screens/LoginScreen';
+import store,{persistor} from './store/store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 export type RootStackParamList = {
@@ -129,9 +132,11 @@ export default function App() {
     return null;
   }
 
-  const isUserLoggedIn = true;
+  const isUserLoggedIn = false;
 
   return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
     <PaperProvider theme={theme}>
       {/*removed saveAreaProvider (safeAreaView provided by default with stack header). If headerVisible=false, then provide safeAreaView explicitly*/}
       <StatusBar style="light" />
@@ -167,6 +172,8 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
     </PaperProvider>
+    </PersistGate>
+    </Provider>
   );
 }
 
