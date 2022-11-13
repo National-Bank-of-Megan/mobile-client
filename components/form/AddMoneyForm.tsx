@@ -1,23 +1,33 @@
-import {StyleSheet, View} from "react-native";
-import {Button, Text, TextInput} from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text, TextInput } from "react-native-paper";
 import InputTheme from "../../constants/input-theme";
 import BalanceAmountInput from "../input/BalanceAmountInput";
 import GlobalStyles from "../../global-styles";
 import Colors from "../../constants/colors";
-import {findCurrencyByName, findCurrencySymbolByCurrencyName, removeNonDigits} from "../../common/transfer";
-import {SubAccountCurrencyBalance} from "../../screens/TransfersScreen";
-import {FormProps} from "../../common/types";
+import { findCurrencyByName, findCurrencySymbolByCurrencyName, removeNonDigits } from "../../common/transfer";
+import { SubAccountCurrencyBalance } from "../../screens/TransfersScreen";
+import { FormProps } from "../../common/types";
 import Decimal from "decimal.js";
-import {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import useInput from "../../hook/use-input";
-import {isValidAmount} from "../../common/validation";
+import { isValidAmount } from "../../common/validation";
 import useNumericInput from "../../hook/use-numeric-input";
-import {shouldUpdateCurrencyInput} from "../../common/update";
-import {useNavigation} from "@react-navigation/native";
-import {AlertState} from "../alert/AlertSnackBar";
+import { shouldUpdateCurrencyInput } from "../../common/update";
+import { useNavigation } from "@react-navigation/native";
+import AlertSnackBar, { AlertState } from "../alert/AlertSnackBar";
+import useFetch, { RequestConfig } from "../../hook/use-fetch";
+import { REST_PATH_ACCOUNT } from "../../constants/constants";
+import Spinner from "../../common/Spinner";
 
-const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, selectedCurrencyName}) => {
+const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, selectedCurrencyName }) => {
   const navigation = useNavigation();
+  const { isLoading, error, sendRequest: addBalanceRequest } = useFetch();
+  const [errorAlertState, setErrorAlertState] = useState<AlertState>
+    ({
+      color: Colors.SNACKBAR_FAILURE,
+      isOpen: false,
+      message: ''
+    })
 
   const {
     value: addBalanceValue,
@@ -35,29 +45,55 @@ const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, 
       isOpen: true,
       message: "Successfully added funds to your account."
     }
-    navigation.navigate("TabsMain", { screen: 'Transfers', params: {
-      alertState: alertState
-    }});
+    navigation.navigate("TabsMain", {
+      screen: 'Transfers', params: {
+        alertState: alertState
+      }
+    });
   }
+
+  const foundCurrency = findCurrencyByName(selectedCurrencyName, subAccountBalanceList)!;
+
+  useEffect(() => {
+    if (!!error) {
+      setErrorAlertState({
+        color: Colors.SNACKBAR_FAILURE,
+        isOpen: true,
+        message: 'Could not add money.'
+      })
+    }
+  }, [error, setErrorAlertState])
 
   const addBalanceHandler = () => {
     if (!addBalanceValueIsValid) {
       setIsAddBalanceTouched(true);
       return;
     }
-    handleAddBalanceSuccessResponse();
-  }
 
-  const foundCurrency = findCurrencyByName(selectedCurrencyName, subAccountBalanceList)!;
+    const addToBalanceRequestContent: RequestConfig = {
+      url: REST_PATH_ACCOUNT + "/currency",
+      method: "PUT",
+      body: {
+        'currency': selectedCurrencyName,
+        'amount': addBalanceValue
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    addBalanceRequest(addToBalanceRequestContent, handleAddBalanceSuccessResponse);
+  };
+
 
   return (
     <>
       <View style={styles.formView}>
         <BalanceAmountInput showDialog={showDialog} selectedCurrencySymbol={foundCurrency.symbol}
-                            value={addBalanceValue}
-                            onChangeText={addBalanceChangeHandler}
-                            onBlur={addBalanceBlurHandler}
-                            error={addBalanceHasError}/>
+          value={addBalanceValue}
+          onChangeText={addBalanceChangeHandler}
+          onBlur={addBalanceBlurHandler}
+          error={addBalanceHasError} />
         <View style={styles.balanceInfoContainer}>
           <Text style={styles.balanceText}>
             <>Currency balance after money load: {addBalanceValue.trim() !== '' ? Decimal.add(foundCurrency.balance, addBalanceValue).toString() : foundCurrency.balance.toString()} {foundCurrency.symbol}</>
@@ -66,6 +102,10 @@ const AddMoneyForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, 
         </View>
       </View>
       <Button mode='contained' onPress={addBalanceHandler} style={styles.addMoneyButton} labelStyle={GlobalStyles.buttonLabel}>add money</Button>
+      <View>
+        <AlertSnackBar alertState={{ "state": errorAlertState, "setState": setErrorAlertState }} />
+      </View>
+      <Spinner isVisible={isLoading} />
     </>
   );
 }
@@ -85,7 +125,8 @@ const styles = StyleSheet.create({
 
   },
   addMoneyButton: {
-    marginTop: 50
+    marginTop: 50,
+    marginBottom: 70
   },
   balanceText: {
     fontSize: 12,

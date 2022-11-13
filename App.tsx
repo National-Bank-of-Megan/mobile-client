@@ -76,7 +76,7 @@ const MainNavigationTabs = () => {
       swipeEnabled: false,
       tabBarStyle: { backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND },
       tabBarActiveTintColor: Colors.PRIMARY,
-      tabBarInactiveTintColor: Colors.NAVIGATION_INACTIVE_TEXT
+      tabBarInactiveTintColor: Colors.NAVIGATION_INACTIVE_TEXT,
     }}
     >
       <Tab.Screen name="Transfers" component={TransfersScreen} options={{
@@ -133,13 +133,9 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
-  // const isUserLoggedIn = true
   
 const CustomNavigationContainer: React.FC<{onLayoutRootView: ()=> void }> = ({onLayoutRootView}) =>{
-  const {isUserLoggedIn} = useCredentialsValidation()
   return(
-    // <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
     <Stack.Navigator screenOptions={{
       title: 'NBM',
       headerStyle: {
@@ -147,12 +143,15 @@ const CustomNavigationContainer: React.FC<{onLayoutRootView: ()=> void }> = ({on
       },
       headerTintColor: Colors.SECONDARY,
       headerTitleAlign: "center",
+      
+    
       headerLeft: () => (
-        <Pressable>
+        <Pressable >
           <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon} />
         </Pressable>
       )
-    }}>
+    }}
+    >
       {
     
        useCredentialsValidation().isUserLoggedIn() &&
@@ -170,7 +169,6 @@ const CustomNavigationContainer: React.FC<{onLayoutRootView: ()=> void }> = ({on
       }
 
     </Stack.Navigator>
-  // </NavigationContainer>
   )
 }
 

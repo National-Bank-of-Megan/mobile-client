@@ -158,9 +158,6 @@ const TransferForm: React.FC<FormProps> = ({ showDialog, subAccountBalanceList, 
           <AlertSnackBar alertState={{ "state": errorAlertState, "setState": setErrorAlertState }} />
         </View>
        <Spinner isVisible={isLoading}/>
-       {/* <Modal visible={true}>
-            <ActivityIndicator animating={true} size={"large"} />
-        </Modal> */}
     </>
   );
 }
@@ -177,6 +174,6 @@ const styles = StyleSheet.create({
   },
   transferButton: {
     top :20,
-    marginBottom: 120
+    marginBottom: 90
   }
 });

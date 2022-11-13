@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import {StyleSheet, View} from "react-native";
-import {Divider, Subheading, useTheme, withTheme, Text} from "react-native-paper";
+import {Divider, Subheading, useTheme, withTheme, Text, Headline} from "react-native-paper";
 import Colors from "../../constants/colors";
 import { REST_PATH_TRANSFER } from "../../constants/constants";
 import useFetch, { RequestConfig } from "../../hook/use-fetch";
@@ -72,6 +72,13 @@ const RecentActivity = () => {
               return <CurrencyExchangeCard item={item}/>
           })
         }
+        {
+        
+        !!errorRecentActivity && <>
+        <Text style={[{color:Colors.SNACKBAR_FAILURE, textAlign: 'center'}]}>Could not download recent activities.</Text>
+        </>
+}
+
       </View>
     </View>
   );
@@ -81,7 +88,6 @@ export default withTheme(RecentActivity);
 
 const styles = StyleSheet.create({
   container: {
-
     minWidth: "90%",
     marginTop: 40
   },

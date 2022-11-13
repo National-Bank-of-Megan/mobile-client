@@ -1,6 +1,6 @@
 import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import TotalBalance from "../components/transfer/TotalBalance";
-import { Headline, HelperText, Provider, withTheme, Button } from "react-native-paper";
+import { Headline, HelperText, Provider, withTheme, Button, Modal, Text, Portal } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDown from "react-native-paper-dropdown";
 import React, { useCallback, useEffect, useState } from "react";
@@ -15,10 +15,6 @@ import useFetch, { RequestConfig } from "../hook/use-fetch";
 import { REST_PATH_ACCOUNT, REST_PATH_TRANSFER } from "../constants/constants";
 import { subaccountBalanceActions } from "../store/slice/subaccountBalanceSlice";
 import { useAppDispatch } from "../hook/redux-hooks";
-import MoneyBalanceOperation from "../model/moneyBalanceOperation";
-import TransactionSummary from "../model/transactionSummary";
-import CurrencyExchangeHistory from "../model/currencyExchangeHistory";
-import CurrencyExchangeHistoryResponse from "../model/currencyExchangeHistoryResponse";
 
 export const availableCurrencies = {
   'EUR': "€",
@@ -94,6 +90,11 @@ const TransfersScreen = () => {
         <RecentActivity />
       </ScrollView>
       <AlertSnackBar alertState={{ "state": alertSnackBarState, "setState": setAlertSnackBarState }} />
+
+      <Modal visible={subAccountsError !== null} contentContainerStyle={styles.modalContainer}>
+        <Text>Application unavailable</Text>
+      </Modal>
+
     </>
   );
 }
@@ -105,5 +106,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 8,
     marginTop: 20,
+  },
+  modalContainer: {
+    backgroundColor: 'black',
+    alignItems: 'center',
+    height: 2000
   }
 });

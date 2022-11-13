@@ -37,9 +37,6 @@ function useFetch () {
             }
 
             const authTokenValid = isAuthTokenValid();
-            // const authTokenValid = true;
-            // alert(authTokenValid)
-            const refreshTokenValid = isRefreshTokenValid();
 
             try {
                 if (authTokenValid) {
