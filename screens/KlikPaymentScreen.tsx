@@ -5,7 +5,7 @@ import {StyleSheet, View} from "react-native";
 import KlikCode from "../components/transfer/KlikCode";
 import Colors from "../constants/colors";
 import KlikPaymentInfo from "../components/transfer/KlikPaymentInfo";
-import {KLIK_CODE_TIME, KLIK_PAYMENT_TIME} from "../constants/contansts";
+import {KLIK_CODE_TIME, KLIK_PAYMENT_TIME} from "../constants/constants";
 import KlikProgressBar from "../components/KlikProgressBar";
 
 const KlikPaymentScreen = () => {

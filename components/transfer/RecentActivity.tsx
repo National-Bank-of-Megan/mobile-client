@@ -1,56 +1,77 @@
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import {StyleSheet, View} from "react-native";
 import {Divider, Subheading, useTheme, withTheme, Text} from "react-native-paper";
 import Colors from "../../constants/colors";
+import { REST_PATH_TRANSFER } from "../../constants/constants";
+import useFetch, { RequestConfig } from "../../hook/use-fetch";
+import CurrencyExchangeHistory from "../../model/currencyExchangeHistory";
+import CurrencyExchangeHistoryResponse from "../../model/currencyExchangeHistoryResponse";
+import MoneyBalanceOperation from "../../model/moneyBalanceOperation";
+import TransactionSummary from "../../model/transactionSummary";
+import CurrencyExchangeCard from "./CurrencyExchangeCard";
 import RecentActivityCard from "./RecentActivityCard";
 import recentActivityCard from "./RecentActivityCard";
-
-const recentActivityCards = [
-  {
-    id: 0,
-    title: 'Spotify subscription',
-    amount: '-20.00 PLN',
-    date: '01.01.2000, 12:00'
-  },
-  {
-    id: 1,
-    title: 'Spotify subscription',
-    amount: '-20.00 PLN',
-    date: '01.01.2000, 12:00'
-  },
-  {
-    id: 2,
-    title: 'Spotify subscription',
-    amount: '-20.00 PLN',
-    date: '01.01.2000, 12:00'
-  },
-  {
-    id: 3,
-    title: 'Spotify subscription',
-    amount: '-20.00 PLN',
-    date: '01.01.2000, 12:00'
-  },
-  {
-    id: 4,
-    title: 'Spotify subscription',
-    amount: '-20.00 PLN',
-    date: '01.01.2000, 12:00'
-  }
-]
+import TransactionCard from "./TransactionCard";
 
 const RecentActivity = () => {
   const {colors, fonts} = useTheme();
+  const [recentActivityList, setRecentActivityList] = useState<MoneyBalanceOperation[]>([]);
+  const {
+    isLoading: isLoadingRecentActivity,
+    error: errorRecentActivity,
+    sendRequest: sendGetRecentActivityRequest
+  } = useFetch();
+
+  useFocusEffect(useCallback(() => {
+
+    // get recent activities
+    const handleFetchRecentActivitySuccess = (moneyBalanceOperationObjects: MoneyBalanceOperation[]) => {
+      const loadedMoneyBalanceOperationList: MoneyBalanceOperation[] = [];
+      for (const key in moneyBalanceOperationObjects) {
+        if (moneyBalanceOperationObjects[key].hasOwnProperty('receiver')) {
+          const fetchedTransaction = moneyBalanceOperationObjects[key] as TransactionSummary;
+          loadedMoneyBalanceOperationList.push(new TransactionSummary(
+            fetchedTransaction.transferType,
+            fetchedTransaction.title,
+            fetchedTransaction.requestDate,
+            fetchedTransaction.amount,
+            fetchedTransaction.currency
+          ));
+        } else {
+          const fetchedCurrencyExchange = moneyBalanceOperationObjects[key] as CurrencyExchangeHistoryResponse;
+          loadedMoneyBalanceOperationList.push(new CurrencyExchangeHistory(
+            fetchedCurrencyExchange.requestDate,
+            fetchedCurrencyExchange.amountBought,
+            fetchedCurrencyExchange.currencyBought,
+            fetchedCurrencyExchange.amountSold,
+            fetchedCurrencyExchange.currencySold
+          ));
+        }
+      }
+      setRecentActivityList(loadedMoneyBalanceOperationList);
+    }
+
+    const sendGetRecentActivityRequestConfig: RequestConfig = {
+      url: REST_PATH_TRANSFER + '/recentActivity'
+    };
+
+    sendGetRecentActivityRequest(sendGetRecentActivityRequestConfig, handleFetchRecentActivitySuccess);
+  }, [sendGetRecentActivityRequest]))
 
   return (
     <View style={styles.container}>
       <Subheading style={[styles.activityHeader, fonts.regular]}>Recent activity</Subheading>
       <Divider style={styles.divider}/>
       <View style={styles.recentActivityListContainer}>
-        {recentActivityCards.map(recentActivityCardItem => 
-          <RecentActivityCard key={recentActivityCardItem.id}
-                              title={recentActivityCardItem.title}
-                              amount={recentActivityCardItem.amount}
-                              date={recentActivityCardItem.date}  />
-        )}
+        {
+          recentActivityList.map((item)=>{
+            if(item instanceof TransactionSummary)
+              return <TransactionCard item={item}/>
+            else
+              return <CurrencyExchangeCard item={item}/>
+          })
+        }
       </View>
     </View>
   );

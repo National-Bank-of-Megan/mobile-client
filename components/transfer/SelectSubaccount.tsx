@@ -7,7 +7,7 @@ import { useTheme } from 'react-native-paper';
 import {SubAccountCurrencyBalance} from "../../screens/TransfersScreen";
 
 const SelectSubaccount: React.FC<{
-  subAccountBalanceList: SubAccountCurrencyBalance[];
+  subAccountBalanceList: SubAccountCurrencyBalance[],
   setSubAccountBalanceList: Dispatch<SetStateAction<SubAccountCurrencyBalance[]>>;
 }> = (props) => {
   const [showDropDown, setShowDropDown] = useState(false);

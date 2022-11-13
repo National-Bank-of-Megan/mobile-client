@@ -1,5 +1,5 @@
 import {ProgressBar, Text} from "react-native-paper";
-import {KLIK_CODE_TIME} from "../constants/contansts";
+import {KLIK_CODE_TIME} from "../constants/constants";
 import {StyleSheet, View} from "react-native";
 import Colors from "../constants/colors";
 import {useEffect, useState} from "react";

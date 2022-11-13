@@ -1,9 +1,6 @@
 import { useCallback, useState } from "react";
-import storage from "redux-persist/es/storage";
-import { AlertState } from "../components/alert/AlertSnackBar";
-import { BEARER_PREFIX, REST_PATH_AUTH } from "../constants/contansts";
+import { BEARER_PREFIX, REST_PATH_AUTH } from "../constants/constants";
 import FetchError from "../model/FetchError";
-import { userAuthenticationActions } from "../store/slice/userAuthenticationSlice";
 import { useAppDispatch, useAppSelector } from "./redux-hooks";
 import useCredentialsValidation from "./use-credentials-validator";
 
@@ -46,7 +43,6 @@ function useFetch () {
 
             try {
                 if (authTokenValid) {
-                alert(userAuth.authToken)
                     requestConfig.headers["Authorization"] = BEARER_PREFIX + userAuth.authToken;
                 } 
                 // else 

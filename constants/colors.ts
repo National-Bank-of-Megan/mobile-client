@@ -18,7 +18,7 @@ const Colors = {
     ADD_FRIEND: "#81C784"
   },
   SNACKBAR_SUCCESS: "#388E3C",
-  SNACKBAR_FAILURE: "#D32F2F"
+  SNACKBAR_FAILURE: "#D32F2F",
 }
 
 export default Colors;
