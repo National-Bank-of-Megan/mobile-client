@@ -42,6 +42,8 @@ import LoginScreen from './screens/LoginScreen';
 import store,{persistor} from './store/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { issuerWithWellKnownUrl } from 'expo-auth-session/build/Discovery';
+import useCredentialsValidation from './hook/use-credentials-validator';
 
 
 export type RootStackParamList = {
@@ -132,45 +134,55 @@ export default function App() {
     return null;
   }
 
-  const isUserLoggedIn = false;
+  // const isUserLoggedIn = true
+  
+const CustomNavigationContainer: React.FC<{onLayoutRootView: ()=> void }> = ({onLayoutRootView}) =>{
+  const {isUserLoggedIn} = useCredentialsValidation()
+  return(
+    // <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
+    <Stack.Navigator screenOptions={{
+      title: 'NBM',
+      headerStyle: {
+        backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND,
+      },
+      headerTintColor: Colors.SECONDARY,
+      headerTitleAlign: "center",
+      headerLeft: () => (
+        <Pressable>
+          <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon} />
+        </Pressable>
+      )
+    }}>
+      {
+    
+       useCredentialsValidation().isUserLoggedIn() &&
+        <>
+        <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
+        <Stack.Screen name="TransferForm" component={TransferFormScreen} />
+        <Stack.Screen name="AddMoneyForm" component={AddMoneyScreen} />
+        <Stack.Screen name="KlikCode" component={KlikCodeScreen} />
+        <Stack.Screen name="KlikPayment" component={KlikPaymentScreen} />
+        </>
+      }
+      {
+        !useCredentialsValidation().isUserLoggedIn() &&
+        <Stack.Screen name="Login" component={LoginScreen} />
+      }
+
+    </Stack.Navigator>
+  // </NavigationContainer>
+  )
+}
 
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
     <PaperProvider theme={theme}>
+    <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
       {/*removed saveAreaProvider (safeAreaView provided by default with stack header). If headerVisible=false, then provide safeAreaView explicitly*/}
       <StatusBar style="light" />
-        <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
-          <Stack.Navigator screenOptions={{
-            title: 'NBM',
-            headerStyle: {
-              backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND,
-            },
-            headerTintColor: Colors.SECONDARY,
-            headerTitleAlign: "center",
-            headerLeft: () => (
-              <Pressable>
-                <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon} />
-              </Pressable>
-            )
-          }}>
-            {
-              isUserLoggedIn &&
-              <>
-              <Stack.Screen name="TabsMain" component={MainNavigationTabs} />
-              <Stack.Screen name="TransferForm" component={TransferFormScreen} />
-              <Stack.Screen name="AddMoneyForm" component={AddMoneyScreen} />
-              <Stack.Screen name="KlikCode" component={KlikCodeScreen} />
-              <Stack.Screen name="KlikPayment" component={KlikPaymentScreen} />
-              </>
-            }
-            {
-              !isUserLoggedIn &&
-              <Stack.Screen name="Login" component={LoginScreen} />
-            }
-
-          </Stack.Navigator>
-        </NavigationContainer>
+      <CustomNavigationContainer onLayoutRootView={onLayoutRootView}/>
+      </NavigationContainer>
     </PaperProvider>
     </PersistGate>
     </Provider>

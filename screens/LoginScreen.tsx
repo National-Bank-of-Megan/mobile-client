@@ -47,7 +47,6 @@ const [name,setName] =useState('e')
 
     useEffect(() => {
         if (result) {
-            alert(result.type)
             if (result.type === 'error') {
                 setAlertState({
                     color: Colors.SNACKBAR_FAILURE,
@@ -58,11 +57,12 @@ const [name,setName] =useState('e')
 
             if(result.type === 'success'){
                 const jwtToken = result.params.id_token;
-                alert(jwtToken)
-                dispatch(userAuthenticationActions.setAccessToken)
+                console.warn("getting jwt token : "+jwtToken);
+            
+                dispatch(userAuthenticationActions.setAccessToken(jwtToken))
                 setName(jwtToken)
                 const decoded = jwtDecode(jwtToken);
-                alert(decoded)
+                // alert(decoded)
                 // const { user_id } = decoded;
                 // setName(decoded);
             }
