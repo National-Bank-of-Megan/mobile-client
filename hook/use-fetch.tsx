@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
+import storage from "redux-persist/es/storage";
 import { BEARER_PREFIX, REST_PATH_AUTH } from "../constants/constants";
 import FetchError from "../model/FetchError";
+import { subaccountBalanceActions } from "../store/slice/subaccountBalanceSlice";
+import { userAuthenticationActions } from "../store/slice/userAuthenticationSlice";
 import { useAppDispatch, useAppSelector } from "./redux-hooks";
 import useCredentialsValidation from "./use-credentials-validator";
 
@@ -39,31 +42,13 @@ function useFetch () {
             const authTokenValid = isAuthTokenValid();
 
             try {
-                if (authTokenValid) {
+                if (authTokenValid) 
                     requestConfig.headers["Authorization"] = BEARER_PREFIX + userAuth.authToken;
-                } 
-                // else 
-                // if (refreshTokenValid) {
-                    // const fetchedAuthToken = await requestAuthTokenWithRefreshToken();
-                    // requestConfig.headers["Authorization"] = BEARER_PREFIX + fetchedAuthToken;
-                // } else if (!requestConfig.url.startsWith(REST_PATH_AUTH)) {
-                //     let sessionExpiredAlertState: AlertState | null = null;
-
-                //     if (userAuth.refreshToken || userAuth.authToken) {
-                //         dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
-                //         dispatch(userAuthenticationActions.clearAuthentication());
-                //         await storage.removeItem("persist: persist-key");
-
-                //         sessionExpiredAlertState = {
-                //             isOpen: true,
-                //             message: 'Your session has expired, please log in again'
-                //         }
-                //     }
-
-                //     const loginPageUrl = '/login';
-                //     navigate(loginPageUrl, { state: sessionExpiredAlertState });
-                // }
-
+                else {
+                    dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
+                    dispatch(userAuthenticationActions.clearAuthentication());
+                    await storage.removeItem("persist: persist-key");
+                }
             
                 const APIAddress = requestConfig.url;
                 const response = await fetch(APIAddress, {

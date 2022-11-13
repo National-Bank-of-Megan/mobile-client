@@ -13,7 +13,7 @@ const reducers = combineReducers({
 })
 
 const persistConfig = {
-    key: 'root',
+    key: 'persist-key',
     storage : AsyncStorage,
     whitelist : ['userAuthentication']
 };
