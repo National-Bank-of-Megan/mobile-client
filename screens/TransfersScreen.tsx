@@ -1,8 +1,6 @@
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import {StyleSheet, ScrollView} from "react-native";
 import TotalBalance from "../components/transfer/TotalBalance";
-import { Headline, HelperText, Provider, withTheme, Button, Modal, Text, Portal } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
-import DropDown from "react-native-paper-dropdown";
+import {Modal, Text} from "react-native-paper";
 import React, { useCallback, useEffect, useState } from "react";
 import SelectSubAccount from "../components/transfer/SelectSubaccount";
 import BalanceOperations from "../components/transfer/BalanceOperations";
@@ -12,7 +10,7 @@ import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
 import AlertSnackBar, { AlertState } from "../components/alert/AlertSnackBar";
 import useFetch, { RequestConfig } from "../hook/use-fetch";
-import { REST_PATH_ACCOUNT, REST_PATH_TRANSFER } from "../constants/constants";
+import { REST_PATH_ACCOUNT} from "../constants/constants";
 import { subaccountBalanceActions } from "../store/slice/subaccountBalanceSlice";
 import { useAppDispatch } from "../hook/redux-hooks";
 

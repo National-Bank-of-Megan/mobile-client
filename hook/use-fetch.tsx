@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import storage from "redux-persist/es/storage";
-import { BEARER_PREFIX, REST_PATH_AUTH } from "../constants/constants";
+import { BEARER_PREFIX } from "../constants/constants";
 import FetchError from "../model/FetchError";
 import { subaccountBalanceActions } from "../store/slice/subaccountBalanceSlice";
 import { userAuthenticationActions } from "../store/slice/userAuthenticationSlice";
@@ -22,10 +22,7 @@ function useFetch () {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadedSuccessfully, setIsLoadedSuccessfully] = useState(false);
     const [error, setError] = useState<Error | null>(null);
-    // const navigate = useNavigate();
-
     const { isAuthTokenValid, isRefreshTokenValid } = useCredentialsValidation();
-    // const { requestAuthTokenWithRefreshToken } = useRefreshToken();
 
     const userAuth = useAppSelector((state) => state.userAuthentication);
     const dispatch = useAppDispatch();

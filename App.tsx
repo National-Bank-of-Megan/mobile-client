@@ -2,11 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import {Pressable, StyleSheet, View} from 'react-native';
 import { Text, Provider as PaperProvider } from 'react-native-paper';
 import theme from "./theme";
-import AppLoading from "expo-app-loading";
-
 import {useFonts} from "expo-font";
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import TransfersScreen, {SubAccountCurrencyBalance} from "./screens/TransfersScreen";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HistoryScreen from "./screens/HistoryScreen";
@@ -15,7 +12,6 @@ import AccountScreen from "./screens/AccountScreen";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import Colors from "./constants/colors";
 import * as SplashScreen from 'expo-splash-screen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   Roboto_100Thin,
   Roboto_100Thin_Italic,
@@ -44,6 +40,10 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { issuerWithWellKnownUrl } from 'expo-auth-session/build/Discovery';
 import useCredentialsValidation from './hook/use-credentials-validator';
+import { subaccountBalanceActions } from './store/slice/subaccountBalanceSlice';
+import { userAuthenticationActions } from './store/slice/userAuthenticationSlice';
+import storage from 'redux-persist/es/storage';
+import { useAppDispatch } from './hook/redux-hooks';
 
 
 export type RootStackParamList = {
@@ -110,6 +110,7 @@ const MainNavigationTabs = () => {
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  
 
   const [fontsLoaded] = useFonts({
     'roboto-bold': Roboto_700Bold,
@@ -135,6 +136,8 @@ export default function App() {
   }
   
 const CustomNavigationContainer: React.FC<{onLayoutRootView: ()=> void }> = ({onLayoutRootView}) =>{
+  const dispatch = useAppDispatch();
+  
   return(
     <Stack.Navigator screenOptions={{
       title: 'NBM',
@@ -146,8 +149,13 @@ const CustomNavigationContainer: React.FC<{onLayoutRootView: ()=> void }> = ({on
       
     
       headerLeft: () => (
-        <Pressable >
-          <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon} />
+        <Pressable onPress={async()=>{
+          dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
+          dispatch(userAuthenticationActions.clearAuthentication());
+          await storage.removeItem("persist: persist-key");
+        }}>
+          <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon} 
+          />
         </Pressable>
       )
     }}
