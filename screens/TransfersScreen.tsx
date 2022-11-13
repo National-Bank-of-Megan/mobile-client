@@ -48,17 +48,10 @@ const TransfersScreen = () => {
     message: ""
   });
 
-  const [recentActivityList, setRecentActivityList] = useState<MoneyBalanceOperation[]>([]);
   const {
     isLoading: isSubAccountsLoading,
     error: subAccountsError,
     sendRequest: sendSubAccountsRequest
-  } = useFetch();
-
-  const {
-    isLoading: isLoadingRecentActivity,
-    error: errorRecentActivity,
-    sendRequest: sendGetRecentActivityRequest
   } = useFetch();
 
   const route = useRoute<RouteProp<RootStackParamList, 'Transfers'>>();
@@ -88,40 +81,8 @@ const TransfersScreen = () => {
       url: REST_PATH_ACCOUNT + '/currency/all'
     };
 
-    // get recent activities
-    const handleFetchRecentActivitySuccess = (moneyBalanceOperationObjects: MoneyBalanceOperation[]) => {
-      const loadedMoneyBalanceOperationList: MoneyBalanceOperation[] = [];
-      for (const key in moneyBalanceOperationObjects) {
-        if (moneyBalanceOperationObjects[key].hasOwnProperty('receiver')) {
-          const fetchedTransaction = moneyBalanceOperationObjects[key] as TransactionSummary;
-          loadedMoneyBalanceOperationList.push(new TransactionSummary(
-            fetchedTransaction.transferType,
-            fetchedTransaction.title,
-            fetchedTransaction.requestDate,
-            fetchedTransaction.amount,
-            fetchedTransaction.currency
-          ));
-        } else {
-          const fetchedCurrencyExchange = moneyBalanceOperationObjects[key] as CurrencyExchangeHistoryResponse;
-          loadedMoneyBalanceOperationList.push(new CurrencyExchangeHistory(
-            fetchedCurrencyExchange.requestDate,
-            fetchedCurrencyExchange.amountBought,
-            fetchedCurrencyExchange.currencyBought,
-            fetchedCurrencyExchange.amountSold,
-            fetchedCurrencyExchange.currencySold
-          ));
-        }
-      }
-      setRecentActivityList(loadedMoneyBalanceOperationList);
-    }
-
-    const sendGetRecentActivityRequestConfig: RequestConfig = {
-      url: REST_PATH_TRANSFER + '/recentActivity'
-    };
-
-    sendGetRecentActivityRequest(sendGetRecentActivityRequestConfig, handleFetchRecentActivitySuccess);
     sendSubAccountsRequest(fetchSubAccountsRequest, transformSubAccounts);
-  }, [sendGetRecentActivityRequest,sendSubAccountsRequest]))
+  }, [sendSubAccountsRequest]))
 
   return (
     <>

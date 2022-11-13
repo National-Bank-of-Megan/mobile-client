@@ -30,7 +30,8 @@ export default AlertSnackBar;
 
 const styles = StyleSheet.create({
   snackBar: {
-    borderRadius: 5
+    borderRadius: 5,
+    margin :0
   },
   message: {
     color: Colors.SECONDARY

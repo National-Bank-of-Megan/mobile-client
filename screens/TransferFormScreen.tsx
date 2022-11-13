@@ -12,13 +12,14 @@ import {RootStackParamList} from "../App";
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import SelectCurrencyDialog from "../components/dialog/SelectCurrencyDialog";
 import {findCurrencyByName, findCurrencySymbolByCurrencyName} from "../common/transfer";
+import { useAppSelector } from "../hook/redux-hooks";
 
 type Props = RouteProp<RootStackParamList, 'TransferForm'>;
 
 const TransferFormScreen = () => {
+  const subaccounts = useAppSelector((state) => state.subaccountBalance);
   const navigation = useNavigation();
   const route = useRoute<Props>();
-  const subAccountBalanceList = route.params.subAccountBalanceList;
 
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedCurrencyName, setSelectedCurrencyName] = useState<string>("PLN");
@@ -31,14 +32,14 @@ const TransferFormScreen = () => {
     <Portal>
       <SelectCurrencyDialog isDialogVisible={isDialogVisible}
                             hideDialog={hideDialog}
-                            subAccountBalanceList={subAccountBalanceList}
+                            subAccountBalanceList={subaccounts.subaccounts}
                             selectedCurrencyName={selectedCurrencyName}
                             setSelectedCurrencyName={setSelectedCurrencyName}/>
     </Portal>
 
     <View style={GlobalStyles.container}>
       <Headline style={GlobalStyles.headline}>New transfer</Headline>
-      <TransferForm showDialog={showDialog} subAccountBalanceList={subAccountBalanceList} selectedCurrencyName={selectedCurrencyName} />
+      <TransferForm showDialog={showDialog} subAccountBalanceList={subaccounts.subaccounts} selectedCurrencyName={selectedCurrencyName} />
     </View>
     </>
   );

@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 import {persistReducer, persistStore} from 'redux-persist'
 import userAuthenticationReducer from "./slice/userAuthenticationSlice";
 import subaccountBalanceReducer from "./slice/subaccountBalanceSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const reducers = combineReducers({
     userAuthentication: userAuthenticationReducer,
@@ -12,8 +13,9 @@ const reducers = combineReducers({
 })
 
 const persistConfig = {
-    key: 'persist-key',
-    storage
+    key: 'root',
+    storage : AsyncStorage,
+    whitelist : ['userAuthentication']
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 

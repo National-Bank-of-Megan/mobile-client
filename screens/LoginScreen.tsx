@@ -57,14 +57,8 @@ const [name,setName] =useState('e')
 
             if(result.type === 'success'){
                 const jwtToken = result.params.id_token;
-                console.warn("getting jwt token : "+jwtToken);
-            
                 dispatch(userAuthenticationActions.setAccessToken(jwtToken))
                 setName(jwtToken)
-                const decoded = jwtDecode(jwtToken);
-                // alert(decoded)
-                // const { user_id } = decoded;
-                // setName(decoded);
             }
         }
     }, [result])

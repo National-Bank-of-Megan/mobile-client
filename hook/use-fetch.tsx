@@ -80,7 +80,6 @@ function useFetch () {
                     const errorMessage = await errorBody.message;
                     throw new FetchError(response.status, errorMessage);
                 }
-                alert(response.status)
                 const responseText = await response.text();
                 let data: T = responseText === "" ? {} : JSON.parse(responseText);
                 applyData(data, response.status);
