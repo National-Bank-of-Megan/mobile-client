@@ -6,6 +6,8 @@ import { subaccountBalanceActions } from "../store/slice/subaccountBalanceSlice"
 import { userAuthenticationActions } from "../store/slice/userAuthenticationSlice";
 import { useAppDispatch, useAppSelector } from "./redux-hooks";
 import useCredentialsValidation from "./use-credentials-validator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Device from 'expo-device';
 
 export type Headers = {
     [key: string]: any;
@@ -27,6 +29,12 @@ function useFetch () {
     const userAuth = useAppSelector((state) => state.userAuthentication);
     const dispatch = useAppDispatch();
 
+    async function logout() {
+        dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
+        dispatch(userAuthenticationActions.clearAuthentication());
+        await AsyncStorage.removeItem("persist: persist-key");
+    }
+
     const sendRequest = useCallback(
         async <T, >(requestConfig: RequestConfig, applyData: (data: T, responseStatus: number) => void) => {
             setIsLoading(true);
@@ -37,6 +45,7 @@ function useFetch () {
             }
 
             const authTokenValid = isAuthTokenValid();
+            requestConfig.headers['Device-Fingerprint'] = Device.osInternalBuildId;
 
             try {
                 if (authTokenValid) 
@@ -55,6 +64,7 @@ function useFetch () {
                 });
             
                 if (!response.ok) {
+                    if (response.status === 511) await logout()
                     const errorBody = await response.json();
                     const errorMessage = await errorBody.message;
                     throw new FetchError(response.status, errorMessage);
