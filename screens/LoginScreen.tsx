@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Platform, StyleSheet, TurboModuleRegistry, View} from "react-native";
+import {Platform, StyleSheet, View} from "react-native";
 import {Button, Headline, Paragraph, Text} from "react-native-paper";
 import Colors from "../constants/colors";
 import GlobalStyles from "../global-styles";
 import * as AuthSession from 'expo-auth-session';
-import {ResponseType} from 'expo-auth-session';
 import AlertSnackBar, {AlertState} from "../components/alert/AlertSnackBar";
-import jwtDecode from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { useAppDispatch, useAppSelector } from "../hook/redux-hooks";
-import { userAuthenticationActions } from "../store/slice/userAuthenticationSlice";
-import storage from "redux-persist/lib/storage";
+import {useAppDispatch, useAppSelector} from "../hook/redux-hooks";
 import store from "../store/store";
+import Spinner from "../common/Spinner";
+import useRegisterDevice from "../hook/use-register-device";
+import {userAuthenticationActions} from "../store/slice/userAuthenticationSlice";
 
 const LoginScreen = () => {
     const [alertState, setAlertState] = useState<AlertState>({
@@ -20,11 +18,13 @@ const LoginScreen = () => {
         message: ''
     })
 
-const [name,setName] =useState('e')
+    const {isLoading, error, sendRequest: sendDevice} = useRegisterDevice();
+
     const dispatch = useAppDispatch()
     const userAuthenticationState = useAppSelector((state) => state.userAuthentication)
     const auth0ClientId = "Vr2PnyOtP7YedwZ0s85DTzq9504hQrje";
     const authorizationEndpoint = "https://dev-xkmthvsw.us.auth0.com/authorize";
+    let jwtToken: string = '';
 
     const useProxy = Platform.select({web: false, default: true});
     const redirectUri = AuthSession.makeRedirectUri({useProxy});
@@ -45,6 +45,7 @@ const [name,setName] =useState('e')
         {authorizationEndpoint}
     );
 
+
     useEffect(() => {
         if (result) {
             if (result.type === 'error') {
@@ -55,42 +56,46 @@ const [name,setName] =useState('e')
                 })
             }
 
-            if(result.type === 'success'){
-                const jwtToken = result.params.id_token;
-                dispatch(userAuthenticationActions.setAccessToken(jwtToken))
-                setName(jwtToken)
-            }
+            if (result.type === 'success')
+                sendDevice(result.params.id_token,(jwt: string) => {
+                    dispatch(userAuthenticationActions.setAccessToken(jwt))
+                })
         }
-    }, [result])
+    }, [result, jwtToken])
+
 
     return (
-        <View style={GlobalStyles.container}>
-            <Headline style={GlobalStyles.headline}>Login</Headline>
-            <Text style={styles.textStyle}>Login to discover all cool features</Text>
-            <Button
-                mode="contained"
-                style={styles.loginButton}
-                labelStyle={GlobalStyles.buttonLabel}
-                onPress={() => promptAsync({useProxy})}
-            >
-                LOGIN
-            </Button>
-            <Paragraph style={styles.explanatoryTextStyle}>
-                Upon login you will be redirected to auth0 page. Please provide your client id and password there.
-            </Paragraph>
-            <Paragraph style={styles.explanatoryTextStyle}>
-                 {store.getState().userAuthentication.authToken}
-            </Paragraph>
-            <Paragraph style={styles.explanatoryTextStyle}>
-                 {userAuthenticationState.authToken}
-            </Paragraph>
-            {alertState.message && <AlertSnackBar alertState={{
-                state: alertState,
-                setState: setAlertState
-            }}/>}
-        </View>
+        <>
+            <View style={GlobalStyles.container}>
+                <Headline style={GlobalStyles.headline}>Login</Headline>
+                <Text style={styles.textStyle}>Login to discover all cool features</Text>
+                <Button
+                    mode="contained"
+                    style={styles.loginButton}
+                    labelStyle={GlobalStyles.buttonLabel}
+                    onPress={() => promptAsync({useProxy})}
+                >
+                    LOGIN
+                </Button>
+                <Paragraph style={styles.explanatoryTextStyle}>
+                    Upon login you will be redirected to auth0 page. Please provide your client id and password there.
+                </Paragraph>
+                <Paragraph style={styles.explanatoryTextStyle}>
+                    {store.getState().userAuthentication.authToken}
+                </Paragraph>
+                <Paragraph style={styles.explanatoryTextStyle}>
+                    {userAuthenticationState.authToken}
+                </Paragraph>
+                <Spinner isVisible={isLoading}/>
+            </View>
+            <AlertSnackBar alertState={{
+                "state": alertState,
+                "setState": setAlertState
+            }}/>
+        </>
     );
-};
+}
+
 
 export default LoginScreen;
 

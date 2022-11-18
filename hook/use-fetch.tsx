@@ -23,7 +23,7 @@ export type RequestConfig = {
 function useFetch () {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadedSuccessfully, setIsLoadedSuccessfully] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+    const [error, setError] = useState<FetchError | null>(null);
     const { isAuthTokenValid, isRefreshTokenValid } = useCredentialsValidation();
 
     const userAuth = useAppSelector((state) => state.userAuthentication);
@@ -57,16 +57,19 @@ function useFetch () {
                 }
             
                 const APIAddress = requestConfig.url;
+                alert(APIAddress)
                 const response = await fetch(APIAddress, {
                     method: requestConfig.method ? requestConfig.method : "GET",
                     headers: requestConfig.headers,
                     body: requestConfig.method === "GET" ? null : requestConfig.body ? JSON.stringify(requestConfig.body) : null,
                 });
-            
+                alert(response.status)
+
                 if (!response.ok) {
                     if (response.status === 511) await logout()
                     const errorBody = await response.json();
                     const errorMessage = await errorBody.message;
+
                     throw new FetchError(response.status, errorMessage);
                 }
                 const responseText = await response.text();
