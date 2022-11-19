@@ -7,7 +7,6 @@ import * as AuthSession from 'expo-auth-session';
 import AlertSnackBar, {AlertState} from "../components/alert/AlertSnackBar";
 import {useAppDispatch, useAppSelector} from "../hook/redux-hooks";
 import store from "../store/store";
-import Spinner from "../common/Spinner";
 import useRegisterDevice from "../hook/use-register-device";
 import {userAuthenticationActions} from "../store/slice/userAuthenticationSlice";
 
@@ -36,7 +35,7 @@ const LoginScreen = () => {
             // id_token will return a JWT token
             responseType: "id_token",
             // retrieve the user's profile
-            scopes: ['openid', 'profile'],
+            scopes: ['offline_access'],
             extraParams: {
                 // ideally, this will be a random value
                 nonce: 'nonce',
@@ -48,18 +47,18 @@ const LoginScreen = () => {
 
     useEffect(() => {
         if (result) {
-            if (result.type === 'error') {
+            if (result.type === 'error')
                 setAlertState({
                     color: Colors.SNACKBAR_FAILURE,
                     isOpen: true,
                     message: result.params.error_description || "Something went wrong. Could not login."
                 })
-            }
 
-            if (result.type === 'success')
-                sendDevice(result.params.id_token,(jwt: string) => {
+            if (result.type === 'success') {
+                sendDevice(result.params.id_token, (jwt: string) => {
                     dispatch(userAuthenticationActions.setAccessToken(jwt))
                 })
+            }
         }
     }, [result, jwtToken])
 
@@ -86,7 +85,6 @@ const LoginScreen = () => {
                 <Paragraph style={styles.explanatoryTextStyle}>
                     {userAuthenticationState.authToken}
                 </Paragraph>
-                <Spinner isVisible={isLoading}/>
             </View>
             <AlertSnackBar alertState={{
                 "state": alertState,

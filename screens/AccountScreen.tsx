@@ -2,9 +2,9 @@ import NotReleasedMessage from "../common/NotReleasedMessage";
 
 const AccountScreen = () => {
 
-  return (
-   <NotReleasedMessage/>
-  );
+    return (
+        <NotReleasedMessage/>
+    );
 }
 
 export default AccountScreen;

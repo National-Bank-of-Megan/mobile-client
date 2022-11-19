@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { SubAccountCurrencyBalance } from "../../screens/TransfersScreen";
+import {SubAccountCurrencyBalance} from "../../screens/TransfersScreen";
 
 export const subaccountBalanceSlice = createSlice({
     name: 'subaccountBalance',

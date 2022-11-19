@@ -1,13 +1,13 @@
-import { useCallback, useState } from "react";
-import storage from "redux-persist/es/storage";
-import { BEARER_PREFIX } from "../constants/constants";
+import {useCallback, useState} from "react";
+import {BEARER_PREFIX} from "../constants/constants";
 import FetchError from "../model/FetchError";
-import { subaccountBalanceActions } from "../store/slice/subaccountBalanceSlice";
-import { userAuthenticationActions } from "../store/slice/userAuthenticationSlice";
-import { useAppDispatch, useAppSelector } from "./redux-hooks";
+import {subaccountBalanceActions} from "../store/slice/subaccountBalanceSlice";
+import {userAuthenticationActions} from "../store/slice/userAuthenticationSlice";
+import {useAppDispatch, useAppSelector} from "./redux-hooks";
 import useCredentialsValidation from "./use-credentials-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Device from 'expo-device';
+
 
 export type Headers = {
     [key: string]: any;
@@ -20,20 +20,20 @@ export type RequestConfig = {
     body?: {};
 };
 
-function useFetch () {
+function useFetch() {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadedSuccessfully, setIsLoadedSuccessfully] = useState(false);
     const [error, setError] = useState<FetchError | null>(null);
-    const { isAuthTokenValid, isRefreshTokenValid } = useCredentialsValidation();
-
-    const userAuth = useAppSelector((state) => state.userAuthentication);
+    const {isAuthTokenValid, isRefreshTokenValid} = useCredentialsValidation();
     const dispatch = useAppDispatch();
 
     async function logout() {
         dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
         dispatch(userAuthenticationActions.clearAuthentication());
-        await AsyncStorage.removeItem("persist: persist-key");
+        await AsyncStorage.removeItem("persist: persist-key")
     }
+
+    const userAuth = useAppSelector((state) => state.userAuthentication);
 
     const sendRequest = useCallback(
         async <T, >(requestConfig: RequestConfig, applyData: (data: T, responseStatus: number) => void) => {
@@ -48,28 +48,22 @@ function useFetch () {
             requestConfig.headers['Device-Fingerprint'] = Device.osInternalBuildId;
 
             try {
-                if (authTokenValid) 
+                if (authTokenValid)
                     requestConfig.headers["Authorization"] = BEARER_PREFIX + userAuth.authToken;
-                else {
-                    dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
-                    dispatch(userAuthenticationActions.clearAuthentication());
-                    await storage.removeItem("persist: persist-key");
-                }
-            
+                else
+                    await logout()
+
                 const APIAddress = requestConfig.url;
-                alert(APIAddress)
                 const response = await fetch(APIAddress, {
                     method: requestConfig.method ? requestConfig.method : "GET",
                     headers: requestConfig.headers,
                     body: requestConfig.method === "GET" ? null : requestConfig.body ? JSON.stringify(requestConfig.body) : null,
                 });
-                alert(response.status)
 
                 if (!response.ok) {
                     if (response.status === 511) await logout()
                     const errorBody = await response.json();
                     const errorMessage = await errorBody.message;
-
                     throw new FetchError(response.status, errorMessage);
                 }
                 const responseText = await response.text();
@@ -83,7 +77,7 @@ function useFetch () {
             }
             setIsLoading(false);
         },
-        [dispatch, isAuthTokenValid, isRefreshTokenValid, userAuth.authToken, userAuth.refreshToken]
+        [dispatch, isAuthTokenValid, isRefreshTokenValid, userAuth.authToken]
     );
 
     return {

@@ -2,9 +2,9 @@ import React from "react";
 import NotReleasedMessage from "../common/NotReleasedMessage";
 
 const HistoryScreen = () => {
-  return (
-    <NotReleasedMessage />
-  )
+    return (
+        <NotReleasedMessage/>
+    )
 
 }
 

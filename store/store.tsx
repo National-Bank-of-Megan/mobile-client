@@ -1,7 +1,6 @@
 import {combineReducers} from "redux";
 
 import {configureStore} from "@reduxjs/toolkit";
-import storage from 'redux-persist/lib/storage'
 import {persistReducer, persistStore} from 'redux-persist'
 import userAuthenticationReducer from "./slice/userAuthenticationSlice";
 import subaccountBalanceReducer from "./slice/subaccountBalanceSlice";
@@ -14,8 +13,8 @@ const reducers = combineReducers({
 
 const persistConfig = {
     key: 'persist-key',
-    storage : AsyncStorage,
-    whitelist : ['userAuthentication']
+    storage: AsyncStorage,
+    whitelist: ['userAuthentication']
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 

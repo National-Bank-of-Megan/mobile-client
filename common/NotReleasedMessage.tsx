@@ -1,13 +1,13 @@
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { Headline } from "react-native-paper";
+import {ScrollView, StyleSheet} from "react-native";
+import {Headline} from "react-native-paper";
 
 const NotReleasedMessage = () => {
     return (
         <>
-        <ScrollView contentContainerStyle={styles.container}>
-            <Headline>Not released yet.</Headline>
-        </ScrollView></>
+            <ScrollView contentContainerStyle={styles.container}>
+                <Headline>Not released yet.</Headline>
+            </ScrollView></>
     );
 }
 

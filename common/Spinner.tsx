@@ -1,11 +1,11 @@
 import React from "react";
-import { ActivityIndicator, Modal } from "react-native-paper";
+import {ActivityIndicator, Modal} from "react-native-paper";
 
-const Spinner: React.FC<{ isVisible: boolean }> = ({ isVisible }) => {
+const Spinner: React.FC<{ isVisible: boolean }> = ({isVisible}) => {
 
     return (
         <Modal visible={isVisible}>
-            <ActivityIndicator animating={isVisible} size={"large"} />
+            <ActivityIndicator animating={isVisible} size={"large"}/>
         </Modal>
     )
 

@@ -2,12 +2,16 @@ import {useCallback, useState} from "react";
 import {REST_PATH_ACCOUNT} from "../constants/constants";
 import FetchError from "../model/FetchError";
 import * as Device from 'expo-device';
-import {logout} from "./ations";
+import {useAppDispatch} from "./redux-hooks";
+import {subaccountBalanceActions} from "../store/slice/subaccountBalanceSlice";
+import {userAuthenticationActions} from "../store/slice/userAuthenticationSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function useRegisterDevice() {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadedSuccessfully, setIsLoadedSuccessfully] = useState(false);
     const [error, setError] = useState<FetchError | null>(null);
+    const dispatch = useAppDispatch();
 
     const sendRequest = useCallback(
         async <T, >(jwt: string | null, applyData: (jwt: string) => void) => {
@@ -24,6 +28,7 @@ function useRegisterDevice() {
                     'Device-Fingerprint': fingerprint,
                     'Authorization': "Bearer " + jwt
                 }
+                alert("sending")
 
                 const response = await fetch(REST_PATH_ACCOUNT + "/device/register", {
                     method: "POST",
@@ -32,7 +37,7 @@ function useRegisterDevice() {
                 });
 
                 if (!response.ok) {
-                    if (response.status === 511) await logout()
+                    if (response.status === 511) throw Error()
                     const errorBody = await response.json();
                     const errorMessage = await errorBody.message;
                     throw new FetchError(response.status, errorMessage);
@@ -41,13 +46,15 @@ function useRegisterDevice() {
                 applyData(jwt);
                 setIsLoadedSuccessfully(true);
             } catch (error) {
-                await logout();
+                dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
+                dispatch(userAuthenticationActions.clearAuthentication());
+                await AsyncStorage.removeItem("persist: persist-key")
+                setIsLoading(false);
                 setError(error as FetchError || new FetchError(500, "Something went wrong."));
                 setIsLoadedSuccessfully(false);
             }
             setIsLoading(false);
-        },
-        [logout]
+        }, [dispatch]
     );
 
     return {

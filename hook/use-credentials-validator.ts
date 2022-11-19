@@ -1,9 +1,10 @@
 import jwt_decode from "jwt-decode";
-import {useAppSelector} from "./redux-hooks";
+import {useAppDispatch, useAppSelector} from "./redux-hooks";
 import {useCallback} from "react";
 
-function useCredentialsValidation () {
+function useCredentialsValidation() {
     const userAuthenticationState = useAppSelector((state) => state.userAuthentication)
+    const dispatch = useAppDispatch();
 
     const isTokenValid = useCallback((token: string | null) => {
         const isTokenExpired = (token: string) => {
@@ -27,7 +28,7 @@ function useCredentialsValidation () {
     const isRefreshTokenValid = useCallback(() => {
         return isTokenValid(userAuthenticationState.refreshToken);
     }, [isTokenValid, userAuthenticationState.refreshToken])
-    
+
     const isUserLoggedIn = useCallback(() => {
         return isAuthTokenValid() || isRefreshTokenValid();
     }, [isAuthTokenValid, isRefreshTokenValid]);
@@ -36,7 +37,7 @@ function useCredentialsValidation () {
         isTokenValid,
         isAuthTokenValid,
         isRefreshTokenValid,
-        isUserLoggedIn
+        isUserLoggedIn,
     };
 }
 
