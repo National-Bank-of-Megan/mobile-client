@@ -4,59 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="registering device - rewritten to hook">
+    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="refactoring">
+      <change afterPath="$PROJECT_DIR$/constants/ip-actions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth0/pkce.ts" beforeDir="false" afterPath="$PROJECT_DIR$/auth0/pkce.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/babel.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/NotReleasedMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/common/NotReleasedMessage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/Spinner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/common/Spinner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/transfer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/transfer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/validation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/validation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/KlikProgressBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/KlikProgressBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/alert/AlertSnackBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/alert/AlertSnackBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/dialog/SelectCurrencyDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dialog/SelectCurrencyDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/form/AddMoneyForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/form/AddMoneyForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/form/TransferForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/form/TransferForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/input/BalanceAmountInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/input/BalanceAmountInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/BalanceOperationItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/BalanceOperationItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/BalanceOperations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/BalanceOperations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/CurrencyExchangeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/CurrencyExchangeCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/KlikPaymentInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikPaymentInfo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/RecentActivity.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/RecentActivity.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/RecentActivityCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/RecentActivityCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/SelectSubaccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/SelectSubaccount.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/TotalBalance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/TotalBalance.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/TransactionCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/TransactionCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/colors.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constants/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/input-theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/input-theme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fonts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fonts.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/global-styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/global-styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/ations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/ations.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-credentials-validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-credentials-validator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-fetch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-fetch.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-input.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-numeric-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-numeric-input.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hook/use-register-device.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-register-device.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-transfer-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-transfer-input.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/UseStateType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/UseStateType.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/styles/recentActivityCardStyles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/styles/recentActivityCardStyles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/AccountScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/AccountScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/AddMoneyScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/AddMoneyScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/CurrencyScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/CurrencyScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/HistoryScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/HistoryScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/KlikPaymentScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikPaymentScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LoginScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/TransferFormScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/TransferFormScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/TransfersScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/TransfersScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/slice/subaccountBalanceSlice.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/store/slice/subaccountBalanceSlice.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/slice/userAuthenticationSlice.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/store/slice/userAuthenticationSlice.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/store.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/store/store.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,9 +26,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -134,7 +94,11 @@
       <workItem from="1668630006742" duration="4964000" />
       <workItem from="1668643029336" duration="2548000" />
       <workItem from="1668717342517" duration="6946000" />
-      <workItem from="1668799085342" duration="2684000" />
+      <workItem from="1668799085342" duration="2923000" />
+      <workItem from="1668894223358" duration="52000" />
+      <workItem from="1669151900835" duration="1437000" />
+      <workItem from="1669239827311" duration="898000" />
+      <workItem from="1669480145841" duration="11465000" />
     </task>
     <task id="LOCAL-00001" summary="get device fingerprint and auto logout">
       <created>1668635154532</created>
@@ -150,7 +114,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668731157131</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactoring">
+      <created>1668820130554</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668820130554</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +141,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="get device fingerprint and auto logout" />
     <MESSAGE value="registering device - rewritten to hook" />
-    <option name="LAST_COMMIT_MESSAGE" value="registering device - rewritten to hook" />
+    <MESSAGE value="refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
   </component>
 </project>

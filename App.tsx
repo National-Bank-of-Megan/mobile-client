@@ -143,7 +143,7 @@ export default function App() {
                     <Pressable onPress={async () => {
                         dispatch(subaccountBalanceActions.setSubaccountsBalance([]));
                         dispatch(userAuthenticationActions.clearAuthentication());
-                        await AsyncStorage.removeItem("persist: persist-key")
+                        await AsyncStorage.clear((error)=>alert(error?.message))
                     }}>
                         <Feather name='log-out' color={Colors.SECONDARY} size={26} style={styles.headerIcon}
                         />
