@@ -4,59 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="registering device - rewritten to hook">
+    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="Transfer money - check if all fields are filled, success alert after money add">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth0/pkce.ts" beforeDir="false" afterPath="$PROJECT_DIR$/auth0/pkce.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/babel.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/NotReleasedMessage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/common/NotReleasedMessage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/Spinner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/common/Spinner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/transfer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/transfer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/update.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/validation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/common/validation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/KlikProgressBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/KlikProgressBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/alert/AlertSnackBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/alert/AlertSnackBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/dialog/SelectCurrencyDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dialog/SelectCurrencyDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/form/AddMoneyForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/form/AddMoneyForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/form/TransferForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/form/TransferForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/input/BalanceAmountInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/input/BalanceAmountInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/BalanceOperationItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/BalanceOperationItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/BalanceOperations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/BalanceOperations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/CurrencyExchangeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/CurrencyExchangeCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/KlikPaymentInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikPaymentInfo.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/transfer/RecentActivity.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/RecentActivity.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/RecentActivityCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/RecentActivityCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/SelectSubaccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/SelectSubaccount.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/TotalBalance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/TotalBalance.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/TransactionCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/TransactionCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/colors.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constants/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/input-theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/input-theme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fonts.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fonts.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/global-styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/global-styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/ations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/ations.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-credentials-validator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-credentials-validator.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-fetch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-fetch.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-input.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-numeric-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-numeric-input.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-register-device.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-register-device.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hook/use-transfer-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hook/use-transfer-input.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/UseStateType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/UseStateType.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/styles/recentActivityCardStyles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/styles/recentActivityCardStyles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/AccountScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/AccountScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/AddMoneyScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/AddMoneyScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/CurrencyScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/CurrencyScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/HistoryScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/HistoryScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/KlikPaymentScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikPaymentScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/currencyExchangeHistory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/currencyExchangeHistory.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/currencyExchangeHistoryResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/currencyExchangeHistoryResponse.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/moneyBalanceOperation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/moneyBalanceOperation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/transactionSummary.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/transactionSummary.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LoginScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/TransferFormScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/TransferFormScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/TransfersScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/TransfersScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/slice/subaccountBalanceSlice.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/store/slice/subaccountBalanceSlice.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/slice/userAuthenticationSlice.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/store/slice/userAuthenticationSlice.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/store.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/store/store.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +55,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/kasia/Documents/GitHub/secure-bank-mobile-client/node_modules/typescript/lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Studia\\PracaInzynierska\\secure-bank-mobile-client\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -135,6 +95,11 @@
       <workItem from="1668643029336" duration="2548000" />
       <workItem from="1668717342517" duration="6946000" />
       <workItem from="1668799085342" duration="2684000" />
+      <workItem from="1669416708275" duration="1817000" />
+      <workItem from="1669463250659" duration="12907000" />
+      <workItem from="1669484463556" duration="3223000" />
+      <workItem from="1669493612686" duration="3235000" />
+      <workItem from="1669498639338" duration="3366000" />
     </task>
     <task id="LOCAL-00001" summary="get device fingerprint and auto logout">
       <created>1668635154532</created>

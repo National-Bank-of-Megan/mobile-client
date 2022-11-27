@@ -30,6 +30,7 @@ const RecentActivity = () => {
                 if (moneyBalanceOperationObjects[key].hasOwnProperty('receiver')) {
                     const fetchedTransaction = moneyBalanceOperationObjects[key] as TransactionSummary;
                     loadedMoneyBalanceOperationList.push(new TransactionSummary(
+                        fetchedTransaction.id,
                         fetchedTransaction.transferType,
                         fetchedTransaction.title,
                         fetchedTransaction.requestDate,
@@ -39,6 +40,7 @@ const RecentActivity = () => {
                 } else {
                     const fetchedCurrencyExchange = moneyBalanceOperationObjects[key] as CurrencyExchangeHistoryResponse;
                     loadedMoneyBalanceOperationList.push(new CurrencyExchangeHistory(
+                        fetchedCurrencyExchange.id,
                         fetchedCurrencyExchange.requestDate,
                         fetchedCurrencyExchange.amountBought,
                         fetchedCurrencyExchange.currencyBought,
@@ -65,9 +67,9 @@ const RecentActivity = () => {
                 {
                     recentActivityList.map((item) => {
                         if (item instanceof TransactionSummary)
-                            return <TransactionCard item={item}/>
+                            return <TransactionCard key={item.id} item={item}/>
                         else
-                            return <CurrencyExchangeCard item={item}/>
+                            return <CurrencyExchangeCard key={item.id} item={item}/>
                     })
                 }
                 {

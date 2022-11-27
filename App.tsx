@@ -1,5 +1,5 @@
 import {StatusBar} from 'expo-status-bar';
-import {Pressable, StyleSheet} from 'react-native';
+import {Alert, Platform, Pressable, StyleSheet} from 'react-native';
 import {Provider as PaperProvider, Text} from 'react-native-paper';
 import theme from "./theme";
 import {useFonts} from "expo-font";
@@ -21,7 +21,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import {Entypo, Feather} from "@expo/vector-icons";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import TransferFormScreen from "./screens/TransferFormScreen";
 import AddMoneyScreen from "./screens/AddMoneyScreen";
 import KlikCodeScreen from "./screens/KlikCodeScreen";
@@ -36,6 +36,7 @@ import {subaccountBalanceActions} from './store/slice/subaccountBalanceSlice';
 import {userAuthenticationActions} from './store/slice/userAuthenticationSlice';
 import {useAppDispatch} from './hook/redux-hooks';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from 'expo-notifications';
 
 export type RootStackParamList = {
     TabsMain: undefined;
@@ -98,10 +99,19 @@ const MainNavigationTabs = () => {
     );
 }
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => {
+        return {
+            shouldPlaySound: false,
+            shouldSetBadge: false,
+            shouldShowAlert: true,
+        };
+    },
+});
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-
 
     const [fontsLoaded] = useFonts({
         'roboto-bold': Roboto_700Bold,
@@ -110,6 +120,59 @@ export default function App() {
         'roboto-light': Roboto_300Light,
         'roboto-thin': Roboto_100Thin,
     })
+
+    useEffect(() => {
+        const configurePushNotifications = async () => {
+            const { status } = await Notifications.getPermissionsAsync();
+            let finalStatus = status;
+
+            if (finalStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+
+            if (finalStatus !== 'granted') {
+                Alert.alert(
+                  'Permission required',
+                  'Push notifications need the appropriate permissions.'
+                );
+                return;
+            }
+
+            const pushTokenData = await Notifications.getExpoPushTokenAsync();
+            console.log(pushTokenData);
+
+            if (Platform.OS === 'android') {
+                Notifications.setNotificationChannelAsync('default', {
+                    name: 'default',
+                    importance: Notifications.AndroidImportance.DEFAULT,
+                });
+            }
+        }
+
+        configurePushNotifications();
+    }, []);
+
+    useEffect(() => {
+        const notificationReceivedSubscription = Notifications.addNotificationReceivedListener(
+          (notification) => {
+              console.log('NOTIFICATION RECEIVED');
+              console.log(notification);
+          }
+        );
+
+        const notificationUserResponseReceivedSubscription = Notifications.addNotificationResponseReceivedListener(
+          (response) => {
+              console.log('NOTIFICATION RESPONSE RECEIVED');
+              console.log(response);
+          }
+        );
+
+        return () => {
+            notificationReceivedSubscription.remove();
+            notificationUserResponseReceivedSubscription.remove();
+        };
+    }, []);
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
