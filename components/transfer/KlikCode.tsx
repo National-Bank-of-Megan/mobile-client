@@ -1,16 +1,22 @@
 import {Text} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import Colors from "../../constants/colors";
-import {KLIK_CODE_TIME} from "../../constants/constants";
 import KlikProgressBar from "../KlikProgressBar";
-import {UseStateType} from "../../model/UseStateType";
-import {AlertState} from "../alert/AlertSnackBar";
+import {useCallback, useState} from "react";
+import {useFocusEffect} from "@react-navigation/native";
 
-const KlikCode: React.FC<{ duration: number, code: string }> = (props)=> {
+const KlikCode: React.FC<{ code: string }> = (props) => {
+    const [shouldRestartCountdown, setShouldRestartCountdown] = useState(false);
+
+    useFocusEffect(
+        useCallback(() => {
+            setShouldRestartCountdown(!shouldRestartCountdown)
+        }, [props.code])
+    );
 
     return (
         <View style={styles.container}>
-            <KlikProgressBar duration={props.duration}/>
+            <KlikProgressBar shouldRestartCountdown={shouldRestartCountdown}/>
             <View style={styles.codeContainer}>
                 <Text style={styles.codeTextStyle}>{props.code}</Text>
             </View>

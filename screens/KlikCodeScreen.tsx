@@ -19,22 +19,17 @@ const KlikCodeScreen = () => {
         };
         ws.onmessage = (e) => {
             console.log('WEBSOCKET CONNECTION RECEIVED DATA');
-            console.log('received '+e.data)
             setKlik(e.data)
-            console.log('set '+klik)
         };
         ws.onerror = (e) => {
-            console.log(e)
             console.log('WEBSOCKET CONNECTION ERROR');
             setIsKlikAvailable(false)
-
         };
         ws.onclose = (e) => {
             console.log('WEBSOCKET CONNECTION CLOSED');
             setIsKlikAvailable(false)
-
         };
-    }, [klik]))
+    }, []))
 
     return (
 
@@ -42,7 +37,7 @@ const KlikCodeScreen = () => {
             {isKlikAvailable &&
                 <View style={GlobalStyles.container}>
                     <Headline style={GlobalStyles.headline}>KLIK code</Headline>
-                    <KlikCode code={klik} duration={120}/>
+                    <KlikCode code={klik}/>
                     <Button mode='contained' icon="content-copy" contentStyle={styles.copyButtonContent}
                             style={styles.copyButton}
                             labelStyle={GlobalStyles.buttonLabel}>Copy code</Button>
