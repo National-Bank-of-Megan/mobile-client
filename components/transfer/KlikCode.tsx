@@ -2,24 +2,35 @@ import {Text} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import Colors from "../../constants/colors";
 import KlikProgressBar from "../KlikProgressBar";
-import {useCallback, useState} from "react";
-import {useFocusEffect} from "@react-navigation/native";
+import {UseStateType} from "../../model/UseStateType";
+import Spinner from "../../common/Spinner";
 
-const KlikCode: React.FC<{ code: string }> = (props) => {
-    const [shouldRestartCountdown, setShouldRestartCountdown] = useState(false);
-
-    useFocusEffect(
-        useCallback(() => {
-            setShouldRestartCountdown(!shouldRestartCountdown)
-        }, [props.code])
-    );
+const KlikCode: React.FC<{
+    code: string,
+    klikToggle: UseStateType<boolean>,
+    isLoading: boolean,
+    timeLeft: UseStateType<number>,
+}> = (props) => {
 
     return (
         <View style={styles.container}>
-            <KlikProgressBar shouldRestartCountdown={shouldRestartCountdown}/>
-            <View style={styles.codeContainer}>
-                <Text style={styles.codeTextStyle}>{props.code}</Text>
-            </View>
+            {
+                props.isLoading &&
+                <View style={styles.spinnerStyle}>
+                    <Spinner isVisible={props.isLoading}/>
+                </View>
+            }
+            {
+                !props.isLoading &&
+                <>
+                    <KlikProgressBar klikToggle={props.klikToggle} timeLeft={props.timeLeft}/>
+                    <View style={styles.codeContainer}>
+                        {props.isLoading &&
+                            <Text style={styles.codeTextStyle}>{props.code}</Text>
+                        }
+                    </View>
+                </>
+            }
         </View>
     );
 }
@@ -41,5 +52,8 @@ const styles = StyleSheet.create({
         letterSpacing: 18,
         color: Colors.SECONDARY,
         textAlign: 'center'
+    },
+    spinnerStyle: {
+        marginBottom: 80
     }
 });

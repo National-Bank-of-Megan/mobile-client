@@ -3,41 +3,53 @@ import {Button, Headline} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import KlikCode from "../components/transfer/KlikCode";
 import {useCallback, useState} from "react";
-import store from "../store/store";
 import {useFocusEffect} from "@react-navigation/native";
+import useFetch, {RequestConfig} from "../hook/use-fetch";
+import {KLIK_CODE_TIME, REST_PATH_TRANSFER} from "../constants/constants";
 
+type KlikCode = {
+    klikCode: string | null;
+    generateDate: Date | null
+};
 
 const KlikCodeScreen = () => {
-    const [klik, setKlik] = useState<string>('')
-    const [isKlikAvailable, setIsKlikAvailable] = useState<boolean>(true)
+    const [klik, setKlik] = useState<KlikCode>({
+        klikCode: null,
+        generateDate: null
+    })
+    const [klikToggle, setKlikToggle] = useState<boolean>(false)
+    const [timeLeft, setTimeLeft] = useState<number>(0);
+    const {isLoading, error, sendRequest: fetchKlik} = useFetch();
 
     useFocusEffect(useCallback(() => {
-        let ws = new WebSocket('ws://10.0.2.2:8081/klik?jwt=' + store.getState().userAuthentication.authToken
-        );
-        ws.onopen = () => {
-            console.log('WEBSOCKET CONNECTION OPENED');
+        const fetchKlikRequest: RequestConfig = {
+            url: REST_PATH_TRANSFER + '/klik'
         };
-        ws.onmessage = (e) => {
-            console.log('WEBSOCKET CONNECTION RECEIVED DATA');
-            setKlik(e.data)
-        };
-        ws.onerror = (e) => {
-            console.log('WEBSOCKET CONNECTION ERROR');
-            setIsKlikAvailable(false)
-        };
-        ws.onclose = (e) => {
-            console.log('WEBSOCKET CONNECTION CLOSED');
-            setIsKlikAvailable(false)
-        };
-    }, []))
+
+        const handleReceivedKlikCode = (k: KlikCode) => {
+            console.log(k)
+            setKlik({
+                klikCode: k.klikCode,
+                generateDate: k.generateDate
+            })
+            setTimeLeft((new Date(klik.generateDate!).getUTCDate()-new Date().getUTCDate()) +KLIK_CODE_TIME)
+        }
+        fetchKlik(fetchKlikRequest, handleReceivedKlikCode);
+    }, [klikToggle]))
 
     return (
 
         <>
-            {isKlikAvailable &&
+            {!error &&
                 <View style={GlobalStyles.container}>
                     <Headline style={GlobalStyles.headline}>KLIK code</Headline>
-                    <KlikCode code={klik}/>
+                    <Headline style={GlobalStyles.headline}>{klikToggle ? 'true' : 'false'}</Headline>
+                    <KlikCode
+                        code={klik.klikCode || ''}
+                        klikToggle={{state: klikToggle, setState: setKlikToggle}}
+                        isLoading={isLoading}
+                        timeLeft={{state: timeLeft, setState: setTimeLeft}}
+                    />
                     <Button mode='contained' icon="content-copy" contentStyle={styles.copyButtonContent}
                             style={styles.copyButton}
                             labelStyle={GlobalStyles.buttonLabel}>Copy code</Button>
@@ -45,7 +57,7 @@ const KlikCodeScreen = () => {
                             style={styles.copyButton}
                             labelStyle={GlobalStyles.buttonLabel}>Subscribe to klik</Button>
                 </View>}
-            {!isKlikAvailable &&
+            {error &&
                 <View style={GlobalStyles.container}>
                     <Headline style={GlobalStyles.headline}>Klik currently unavailable. Try again later.</Headline>
                 </View>}
