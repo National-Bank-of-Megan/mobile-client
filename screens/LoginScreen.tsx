@@ -47,6 +47,7 @@ const LoginScreen = () => {
 
     useEffect(() => {
         if (result) {
+            console.log('result');
             if (result.type === 'error')
                 setAlertState({
                     color: Colors.SNACKBAR_FAILURE,
@@ -55,6 +56,8 @@ const LoginScreen = () => {
                 })
 
             if (result.type === 'success') {
+                console.log('success')
+                console.log(result.params.id_token)
                 sendDevice(result.params.id_token, (jwt: string) => {
                     dispatch(userAuthenticationActions.setAccessToken(jwt))
                 })
