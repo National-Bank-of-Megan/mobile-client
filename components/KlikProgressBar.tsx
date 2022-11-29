@@ -18,11 +18,13 @@ const KlikProgressBar: React.FC<{
 
         if (props.timeLeft.state > -1) {
             interval = setInterval(() => {
+                console.log('time left: '+props.timeLeft.state)
+                console.log(props.timeLeft.state)
                 props.timeLeft.setState(previousTimeLeft => previousTimeLeft - 1)
             }, 1000);
-        }else
+        } else {
             props.klikToggle.setState(!props.klikToggle.state)
-
+        }
         return () => {
             clearInterval(interval);
         }

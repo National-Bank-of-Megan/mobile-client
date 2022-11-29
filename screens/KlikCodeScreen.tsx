@@ -32,9 +32,8 @@ const KlikCodeScreen = () => {
                 klikCode: k.klikCode,
                 generateDate: k.generateDate
             })
-            setTimeLeft(KLIK_CODE_TIME)
+            setTimeLeft((new Date(klik.generateDate!).getUTCDate()-new Date().getUTCDate()) +KLIK_CODE_TIME)
         }
-        console.log('fetching')
         fetchKlik(fetchKlikRequest, handleReceivedKlikCode);
     }, [klikToggle]))
 

@@ -25,7 +25,9 @@ const KlikCode: React.FC<{
                 <>
                     <KlikProgressBar klikToggle={props.klikToggle} timeLeft={props.timeLeft}/>
                     <View style={styles.codeContainer}>
-                        <Text style={styles.codeTextStyle}>{props.code}</Text>
+                        {props.isLoading &&
+                            <Text style={styles.codeTextStyle}>{props.code}</Text>
+                        }
                     </View>
                 </>
             }
