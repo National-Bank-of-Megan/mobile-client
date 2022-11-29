@@ -5,7 +5,12 @@ import KlikProgressBar from "../KlikProgressBar";
 import {UseStateType} from "../../model/UseStateType";
 import Spinner from "../../common/Spinner";
 
-const KlikCode: React.FC<{ code: string, klikToggle: UseStateType<boolean>, isLoading: boolean }> = (props) => {
+const KlikCode: React.FC<{
+    code: string,
+    klikToggle: UseStateType<boolean>,
+    isLoading: boolean,
+    timeLeft: UseStateType<number>,
+}> = (props) => {
 
     return (
         <View style={styles.container}>
@@ -18,7 +23,7 @@ const KlikCode: React.FC<{ code: string, klikToggle: UseStateType<boolean>, isLo
             {
                 !props.isLoading &&
                 <>
-                    <KlikProgressBar klikToggle={props.klikToggle}/>
+                    <KlikProgressBar klikToggle={props.klikToggle} timeLeft={props.timeLeft}/>
                     <View style={styles.codeContainer}>
                         <Text style={styles.codeTextStyle}>{props.code}</Text>
                     </View>

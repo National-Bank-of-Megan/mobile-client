@@ -3,28 +3,25 @@ import {StyleSheet, View} from "react-native";
 import Colors from "../constants/colors";
 import {SetStateAction, useCallback, useEffect, useState} from "react";
 import {useFocusEffect} from "@react-navigation/native";
-import {KLIK_DURATION} from "../constants/constants";
+
 import {UseStateType} from "../model/UseStateType";
+import {KLIK_CODE_TIME} from "../constants/constants";
 
 const KlikProgressBar: React.FC<{
     marginTop?: number,
-    klikToggle: UseStateType<boolean>
+    klikToggle: UseStateType<boolean>,
+    timeLeft: UseStateType<number>
 }> = (props) => {
-    const [timeLeft, setTimeLeft] = useState(KLIK_DURATION);
 
     useEffect(() => {
         let interval: NodeJS.Timer;
 
-        if (timeLeft > -1) {
+        if (props.timeLeft.state > -1) {
             interval = setInterval(() => {
-                setTimeLeft(previousTimeLeft => previousTimeLeft - 1)
+                props.timeLeft.setState(previousTimeLeft => previousTimeLeft - 1)
             }, 1000);
-        }else{
-            console.log("time's up")
+        }else
             props.klikToggle.setState(!props.klikToggle.state)
-            console.log('setting time left')
-            setTimeLeft(KLIK_DURATION)
-        }
 
         return () => {
             clearInterval(interval);
@@ -33,8 +30,8 @@ const KlikProgressBar: React.FC<{
 
     return (
         <View style={{...styles.container, marginTop: props.marginTop}}>
-            <Text style={styles.validText}>Valid for the next: {timeLeft}s</Text>
-            <ProgressBar progress={timeLeft / KLIK_DURATION} style={styles.progressBar}/>
+            <Text style={styles.validText}>Valid for the next: {props.timeLeft.state}s</Text>
+            <ProgressBar progress={props.timeLeft.state / KLIK_CODE_TIME} style={styles.progressBar}/>
         </View>
     );
 }

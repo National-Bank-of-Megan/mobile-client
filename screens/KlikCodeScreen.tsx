@@ -5,7 +5,7 @@ import KlikCode from "../components/transfer/KlikCode";
 import {useCallback, useState} from "react";
 import {useFocusEffect} from "@react-navigation/native";
 import useFetch, {RequestConfig} from "../hook/use-fetch";
-import {REST_PATH_TRANSFER} from "../constants/constants";
+import {KLIK_CODE_TIME, REST_PATH_TRANSFER} from "../constants/constants";
 
 type KlikCode = {
     klikCode: string | null;
@@ -18,6 +18,7 @@ const KlikCodeScreen = () => {
         generateDate: null
     })
     const [klikToggle, setKlikToggle] = useState<boolean>(false)
+    const [timeLeft, setTimeLeft] = useState<number>(0);
     const {isLoading, error, sendRequest: fetchKlik} = useFetch();
 
     useFocusEffect(useCallback(() => {
@@ -31,7 +32,7 @@ const KlikCodeScreen = () => {
                 klikCode: k.klikCode,
                 generateDate: k.generateDate
             })
-
+            setTimeLeft(KLIK_CODE_TIME)
         }
         console.log('fetching')
         fetchKlik(fetchKlikRequest, handleReceivedKlikCode);
@@ -45,9 +46,10 @@ const KlikCodeScreen = () => {
                     <Headline style={GlobalStyles.headline}>KLIK code</Headline>
                     <Headline style={GlobalStyles.headline}>{klikToggle ? 'true' : 'false'}</Headline>
                     <KlikCode
-                        code={klik.klikCode}
+                        code={klik.klikCode || ''}
                         klikToggle={{state: klikToggle, setState: setKlikToggle}}
                         isLoading={isLoading}
+                        timeLeft={{state: timeLeft, setState: setTimeLeft}}
                     />
                     <Button mode='contained' icon="content-copy" contentStyle={styles.copyButtonContent}
                             style={styles.copyButton}
