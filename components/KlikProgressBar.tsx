@@ -1,33 +1,34 @@
 import {ProgressBar, Text} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import Colors from "../constants/colors";
-import {useCallback, useEffect, useState} from "react";
+import {SetStateAction, useCallback, useEffect, useState} from "react";
 import {useFocusEffect} from "@react-navigation/native";
 import {KLIK_DURATION} from "../constants/constants";
+import {UseStateType} from "../model/UseStateType";
 
 const KlikProgressBar: React.FC<{
     marginTop?: number,
-    shouldRestartCountdown: boolean
+    klikToggle: UseStateType<boolean>
 }> = (props) => {
     const [timeLeft, setTimeLeft] = useState(KLIK_DURATION);
-    // const[current,setCurrent] = useState(props.x)
-
-    useFocusEffect(
-        useCallback(() => {
-            setTimeLeft(KLIK_DURATION)
-        }, [props.shouldRestartCountdown])
-    );
 
     useEffect(() => {
         let interval: NodeJS.Timer;
 
-        if (timeLeft > 0) {
+        if (timeLeft > -1) {
             interval = setInterval(() => {
                 setTimeLeft(previousTimeLeft => previousTimeLeft - 1)
             }, 1000);
+        }else{
+            console.log("time's up")
+            props.klikToggle.setState(!props.klikToggle.state)
+            console.log('setting time left')
+            setTimeLeft(KLIK_DURATION)
         }
 
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(interval);
+        }
     });
 
     return (

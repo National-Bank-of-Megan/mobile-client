@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="klik code generation with websocket connection">
+    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="klik progress bar integration with websockets">
+      <change afterPath="$PROJECT_DIR$/model/UseStateType.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/KlikProgressBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/KlikProgressBar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,13 +19,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -92,7 +97,7 @@
       <workItem from="1669151900835" duration="1437000" />
       <workItem from="1669239827311" duration="898000" />
       <workItem from="1669480145841" duration="14649000" />
-      <workItem from="1669668529843" duration="2186000" />
+      <workItem from="1669668529843" duration="7332000" />
     </task>
     <task id="LOCAL-00001" summary="get device fingerprint and auto logout">
       <created>1668635154532</created>
@@ -122,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669504921980</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="klik progress bar integration with websockets">
+      <created>1669673447178</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669673447178</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,6 +156,7 @@
     <MESSAGE value="registering device - rewritten to hook" />
     <MESSAGE value="refactoring" />
     <MESSAGE value="klik code generation with websocket connection" />
-    <option name="LAST_COMMIT_MESSAGE" value="klik code generation with websocket connection" />
+    <MESSAGE value="klik progress bar integration with websockets" />
+    <option name="LAST_COMMIT_MESSAGE" value="klik progress bar integration with websockets" />
   </component>
 </project>
