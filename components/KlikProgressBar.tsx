@@ -2,12 +2,14 @@ import {ProgressBar, Text} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import Colors from "../constants/colors";
 import {useEffect, useState} from "react";
+import {KLIK_PAYMENT_TIME} from "../constants/constants";
 
 const KlikProgressBar: React.FC<{
-    duration: number,
+    timeLeft: number,
+    maxDurationTime: number,
     marginTop?: number
 }> = (props) => {
-    const [timeLeft, setTimeLeft] = useState(props.duration);
+    const [timeLeft, setTimeLeft] = useState(props.timeLeft);
 
     useEffect(() => {
         let interval: NodeJS.Timer;
@@ -24,7 +26,7 @@ const KlikProgressBar: React.FC<{
     return (
         <View style={{...styles.container, marginTop: props.marginTop}}>
             <Text style={styles.validText}>Valid for the next: {timeLeft}s</Text>
-            <ProgressBar progress={timeLeft / props.duration} style={styles.progressBar}/>
+            <ProgressBar progress={timeLeft / props.maxDurationTime} style={styles.progressBar}/>
         </View>
     );
 }

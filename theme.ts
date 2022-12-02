@@ -1,5 +1,6 @@
 import {configureFonts, DefaultTheme} from 'react-native-paper';
 import Colors from "./constants/colors";
+import {Theme} from "react-native-paper/lib/typescript/types";
 
 const fontConfig = {
     web: {
@@ -58,13 +59,14 @@ const fontConfig = {
     }
 };
 
-const theme = {
+const theme: Theme = {
     ...DefaultTheme,
     dark: true,
     mode: 'adaptive',
     roundness: 2,
     fonts: {
         ...DefaultTheme.fonts,
+        // @ts-ignore
         fonts: configureFonts(fontConfig)
     },
     colors: {

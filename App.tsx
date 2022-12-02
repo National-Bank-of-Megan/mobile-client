@@ -3,7 +3,7 @@ import {Alert, Platform, Pressable, StyleSheet} from 'react-native';
 import {Provider as PaperProvider, Text} from 'react-native-paper';
 import theme from "./theme";
 import {useFonts} from "expo-font";
-import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer, useNavigation} from "@react-navigation/native";
 import TransfersScreen, {SubAccountCurrencyBalance} from "./screens/TransfersScreen";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HistoryScreen from "./screens/HistoryScreen";
@@ -21,7 +21,7 @@ import {
 } from '@expo-google-fonts/roboto';
 import {Entypo, Feather} from "@expo/vector-icons";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useContext, useEffect} from "react";
 import TransferFormScreen from "./screens/TransferFormScreen";
 import AddMoneyScreen from "./screens/AddMoneyScreen";
 import KlikCodeScreen from "./screens/KlikCodeScreen";
@@ -37,6 +37,8 @@ import {userAuthenticationActions} from './store/slice/userAuthenticationSlice';
 import {useAppDispatch} from './hook/redux-hooks';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from 'expo-notifications';
+import KlikTransactionContextProvider, {KlikTransactionContext} from "./store/context/klik-transaction-context";
+import {KlikTransaction} from "./model/klikTransaction";
 
 export type RootStackParamList = {
     TabsMain: undefined;
@@ -68,29 +70,33 @@ const MainNavigationTabs = () => {
             swipeEnabled: false,
             tabBarStyle: {backgroundColor: Colors.MAIN_NAVIGATION_BACKGROUND},
             tabBarActiveTintColor: Colors.PRIMARY,
-            tabBarInactiveTintColor: Colors.NAVIGATION_INACTIVE_TEXT,
+            tabBarInactiveTintColor: Colors.SECONDARY,
         }}
         >
             <Tab.Screen name="Transfers" component={TransfersScreen} options={{
                 tabBarLabel: 'TRANSFERS',
+                tabBarLabelStyle: { fontSize: 11 },
                 tabBarIcon: ({color}) => (
                     <Entypo name="swap" color={color} size={24} style={styles.tabIcon}/>
                 ),
             }}/>
             <Tab.Screen name="History" component={HistoryScreen} options={{
                 tabBarLabel: 'HISTORY',
+                tabBarLabelStyle: { fontSize: 11 },
                 tabBarIcon: ({color}) => (
                     <MaterialCommunityIcons name="history" color={color} size={26} style={styles.tabIcon}/>
                 ),
             }}/>
             <Tab.Screen name="Exchanges" component={CurrencyScreen} options={{
                 tabBarLabel: 'EXCHANGES',
+                tabBarLabelStyle: { fontSize: 11 },
                 tabBarIcon: ({color}) => (
                     <Text style={[styles.tabLetterIcon, {color: color}]}>$</Text>
                 ),
             }}/>
             <Tab.Screen name="Account" component={AccountScreen} options={{
                 tabBarLabel: 'ACCOUNT',
+                tabBarLabelStyle: { fontSize: 11 },
                 tabBarIcon: ({color}) => (
                     <MaterialCommunityIcons name="account-circle" color={color} size={26} style={styles.tabIcon}/>
                 ),
@@ -153,27 +159,6 @@ export default function App() {
         configurePushNotifications();
     }, []);
 
-    useEffect(() => {
-        const notificationReceivedSubscription = Notifications.addNotificationReceivedListener(
-          (notification) => {
-              console.log('NOTIFICATION RECEIVED');
-              console.log(notification);
-          }
-        );
-
-        const notificationUserResponseReceivedSubscription = Notifications.addNotificationResponseReceivedListener(
-          (response) => {
-              console.log('NOTIFICATION RESPONSE RECEIVED');
-              console.log(response);
-          }
-        );
-
-        return () => {
-            notificationReceivedSubscription.remove();
-            notificationUserResponseReceivedSubscription.remove();
-        };
-    }, []);
-
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
             // This tells the splash screen to hide immediately! If we call this after
@@ -191,6 +176,31 @@ export default function App() {
 
     const CustomNavigationContainer: React.FC<{ onLayoutRootView: () => void }> = ({onLayoutRootView}) => {
         const dispatch = useAppDispatch();
+        let klikTransactionCtx = useContext(KlikTransactionContext);
+        const navigation = useNavigation();
+
+        useEffect(() => {
+            const notificationReceivedSubscription = Notifications.addNotificationReceivedListener(
+                (notification) => {
+                    console.log('NOTIFICATION RECEIVED');
+                    const receivedKlikTransactionData = notification.request.content.data as KlikTransaction;
+                    klikTransactionCtx.setKlikTransaction(receivedKlikTransactionData);
+                }
+            );
+
+            const notificationUserResponseReceivedSubscription = Notifications.addNotificationResponseReceivedListener(
+                (response) => {
+                    console.log('NOTIFICATION RESPONSE RECEIVED');
+                    // @ts-ignore
+                    navigation.navigate("KlikPayment");
+                }
+            );
+
+            return () => {
+                notificationReceivedSubscription.remove();
+                notificationUserResponseReceivedSubscription.remove();
+            };
+        }, []);
 
         return (
             <Stack.Navigator screenOptions={{
@@ -200,7 +210,6 @@ export default function App() {
                 },
                 headerTintColor: Colors.SECONDARY,
                 headerTitleAlign: "center",
-
 
                 headerLeft: () => (
                     <Pressable onPress={async () => {
@@ -238,11 +247,12 @@ export default function App() {
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <PaperProvider theme={theme}>
-                    <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
-                        {/*removed saveAreaProvider (safeAreaView provided by default with stack header). If headerVisible=false, then provide safeAreaView explicitly*/}
-                        <StatusBar style="light"/>
-                        <CustomNavigationContainer onLayoutRootView={onLayoutRootView}/>
-                    </NavigationContainer>
+                    <KlikTransactionContextProvider>
+                        <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
+                            <StatusBar style="light"/>
+                            <CustomNavigationContainer onLayoutRootView={onLayoutRootView}/>
+                        </NavigationContainer>
+                    </KlikTransactionContextProvider>
                 </PaperProvider>
             </PersistGate>
         </Provider>

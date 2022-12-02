@@ -82,12 +82,6 @@ const LoginScreen = () => {
                 <Paragraph style={styles.explanatoryTextStyle}>
                     Upon login you will be redirected to auth0 page. Please provide your client id and password there.
                 </Paragraph>
-                <Paragraph style={styles.explanatoryTextStyle}>
-                    {store.getState().userAuthentication.authToken}
-                </Paragraph>
-                <Paragraph style={styles.explanatoryTextStyle}>
-                    {userAuthenticationState.authToken}
-                </Paragraph>
             </View>
             <AlertSnackBar alertState={{
                 "state": alertState,

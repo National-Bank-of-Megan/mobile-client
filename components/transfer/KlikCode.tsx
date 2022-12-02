@@ -8,7 +8,7 @@ const KlikCode = () => {
 
     return (
         <View style={styles.container}>
-            <KlikProgressBar duration={KLIK_CODE_TIME}/>
+            <KlikProgressBar timeLeft={KLIK_CODE_TIME} maxDurationTime={KLIK_CODE_TIME}/>
             <View style={styles.codeContainer}>
                 <Text style={styles.codeTextStyle}>123456</Text>
             </View>
