@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="Transfer money - check if all fields are filled, success alert after money add">
+    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="timeleft's control moved to the upper component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/RecentActivity.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/RecentActivity.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/currencyExchangeHistory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/currencyExchangeHistory.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/currencyExchangeHistoryResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/currencyExchangeHistoryResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/moneyBalanceOperation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/moneyBalanceOperation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/transactionSummary.ts" beforeDir="false" afterPath="$PROJECT_DIR$/model/transactionSummary.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/KlikProgressBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/KlikProgressBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LoginScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,13 +21,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="TypeScript File" />
         <option value="JavaScript File" />
         <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -55,7 +55,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Studia\\PracaInzynierska\\secure-bank-mobile-client\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/kasia/Documents/GitHub/secure-bank-mobile-client/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -94,12 +94,13 @@
       <workItem from="1668630006742" duration="4964000" />
       <workItem from="1668643029336" duration="2548000" />
       <workItem from="1668717342517" duration="6946000" />
-      <workItem from="1668799085342" duration="2684000" />
-      <workItem from="1669416708275" duration="1817000" />
-      <workItem from="1669463250659" duration="12907000" />
-      <workItem from="1669484463556" duration="3223000" />
-      <workItem from="1669493612686" duration="3235000" />
-      <workItem from="1669498639338" duration="3366000" />
+      <workItem from="1668799085342" duration="2923000" />
+      <workItem from="1668894223358" duration="52000" />
+      <workItem from="1669151900835" duration="1437000" />
+      <workItem from="1669239827311" duration="898000" />
+      <workItem from="1669480145841" duration="14649000" />
+      <workItem from="1669668529843" duration="8983000" />
+      <workItem from="1669714074894" duration="7200000" />
     </task>
     <task id="LOCAL-00001" summary="get device fingerprint and auto logout">
       <created>1668635154532</created>
@@ -115,7 +116,42 @@
       <option name="project" value="LOCAL" />
       <updated>1668731157131</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="refactoring">
+      <created>1668820130554</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668820130554</updated>
+    </task>
+    <task id="LOCAL-00004" summary="klik code generation with websocket connection">
+      <created>1669504921980</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669504921980</updated>
+    </task>
+    <task id="LOCAL-00005" summary="klik progress bar integration with websockets">
+      <created>1669673447178</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669673447178</updated>
+    </task>
+    <task id="LOCAL-00006" summary="get klik code with regular fetch">
+      <created>1669684686050</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669684686050</updated>
+    </task>
+    <task id="LOCAL-00007" summary="timeleft's control moved to the upper component">
+      <created>1669685517391</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1669685517391</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,6 +171,22 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="get device fingerprint and auto logout" />
     <MESSAGE value="registering device - rewritten to hook" />
-    <option name="LAST_COMMIT_MESSAGE" value="registering device - rewritten to hook" />
+    <MESSAGE value="refactoring" />
+    <MESSAGE value="klik code generation with websocket connection" />
+    <MESSAGE value="klik progress bar integration with websockets" />
+    <MESSAGE value="get klik code with regular fetch" />
+    <MESSAGE value="timeleft's control moved to the upper component" />
+    <option name="LAST_COMMIT_MESSAGE" value="timeleft's control moved to the upper component" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/components/KlikProgressBar.tsx</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

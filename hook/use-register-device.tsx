@@ -36,6 +36,8 @@ function useRegisterDevice() {
                     body: null,
                 });
 
+                alert(response)
+
                 if (!response.ok) {
                     if (response.status === 511) throw Error()
                     const errorBody = await response.json();

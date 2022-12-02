@@ -1,17 +1,37 @@
 import {Text} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import Colors from "../../constants/colors";
-import {KLIK_CODE_TIME} from "../../constants/constants";
 import KlikProgressBar from "../KlikProgressBar";
+import {UseStateType} from "../../model/UseStateType";
+import Spinner from "../../common/Spinner";
+import {KLIK_CODE_TIME} from "../../constants/constants";
 
-const KlikCode = () => {
+const KlikCode: React.FC<{
+    code: string,
+    klikToggle: UseStateType<boolean>,
+    isLoading: boolean,
+    timeLeft: number,
+}> = (props) => {
 
     return (
         <View style={styles.container}>
-            <KlikProgressBar timeLeft={KLIK_CODE_TIME} maxDurationTime={KLIK_CODE_TIME}/>
-            <View style={styles.codeContainer}>
-                <Text style={styles.codeTextStyle}>123456</Text>
-            </View>
+            {
+                props.isLoading &&
+                <View style={styles.spinnerStyle}>
+                    <Spinner isVisible={props.isLoading}/>
+                </View>
+            }
+            {
+                !props.isLoading &&
+                <>
+                    <KlikProgressBar klikToggle={props.klikToggle} timeLeft={props.timeLeft} duration={KLIK_CODE_TIME} />
+                    <View style={styles.codeContainer}>
+                        {props.isLoading &&
+                            <Text style={styles.codeTextStyle}>{props.code}</Text>
+                        }
+                    </View>
+                </>
+            }
         </View>
     );
 }
@@ -33,5 +53,8 @@ const styles = StyleSheet.create({
         letterSpacing: 18,
         color: Colors.SECONDARY,
         textAlign: 'center'
+    },
+    spinnerStyle: {
+        marginBottom: 80
     }
 });

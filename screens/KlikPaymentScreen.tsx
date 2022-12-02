@@ -34,7 +34,7 @@ const KlikPaymentScreen = () => {
             <Headline style={GlobalStyles.headline}>KLIK payment</Headline>
             <Text style={styles.textInfo}>The KLIK payment is awaiting for your confirmation</Text>
             <KlikPaymentInfo klikTransactionData={klikTransactionCtx.klikTransaction!}/>
-            <KlikProgressBar marginTop={40} timeLeft={klikConfirmTransactionTimeLeft} maxDurationTime={KLIK_PAYMENT_TIME} />
+            <KlikProgressBar marginTop={40} timeLeft={klikConfirmTransactionTimeLeft} duration={KLIK_PAYMENT_TIME} />
             <Button mode='contained' style={styles.confirmButton}
                     labelStyle={GlobalStyles.buttonLabel}>CONFIRM PAYMENT</Button>
         </View>
