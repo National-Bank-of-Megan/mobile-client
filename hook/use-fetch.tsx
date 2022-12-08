@@ -24,7 +24,7 @@ function useFetch() {
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadedSuccessfully, setIsLoadedSuccessfully] = useState(false);
     const [error, setError] = useState<FetchError | null>(null);
-    const {isAuthTokenValid, isRefreshTokenValid} = useCredentialsValidation();
+    const {isTokenValid, isAuthTokenValid} = useCredentialsValidation();
     const dispatch = useAppDispatch();
 
     async function logout() {
@@ -47,11 +47,14 @@ function useFetch() {
             const authTokenValid = isAuthTokenValid();
             requestConfig.headers['Device-Fingerprint'] = Device.osInternalBuildId;
 
-            try {
+            try { // NOTE: context auth token has bigger priority than the one manually provided in requestConfig.headers parameter
                 if (authTokenValid)
                     requestConfig.headers["Authorization"] = BEARER_PREFIX + userAuth.authToken;
-                else
+                else if (!!userAuth.authToken || !!requestConfig.headers["Authorization"] && !isTokenValid(requestConfig.headers["Authorization"])) { // if manually provided authorization header not valid, logout
+                    console.log("Automatic log out...");
                     await logout()
+                }
+
 
                 const APIAddress = requestConfig.url;
                 const response = await fetch(APIAddress, {
@@ -61,7 +64,9 @@ function useFetch() {
                 });
 
                 if (!response.ok) {
-                    if (response.status === 511) await logout()
+                    if (response.status === 511) {
+                        await logout()
+                    }
                     const errorBody = await response.json();
                     const errorMessage = await errorBody.message;
                     throw new FetchError(response.status, errorMessage);
@@ -77,7 +82,7 @@ function useFetch() {
             }
             setIsLoading(false);
         },
-        [dispatch, isAuthTokenValid, isRefreshTokenValid, userAuth.authToken]
+        [dispatch, isAuthTokenValid, userAuth.authToken]
     );
 
     return {
@@ -86,6 +91,6 @@ function useFetch() {
         error,
         sendRequest,
     };
-};
+}
 
 export default useFetch;

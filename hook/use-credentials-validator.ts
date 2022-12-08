@@ -4,7 +4,6 @@ import {useCallback} from "react";
 
 function useCredentialsValidation() {
     const userAuthenticationState = useAppSelector((state) => state.userAuthentication)
-    const dispatch = useAppDispatch();
 
     const isTokenValid = useCallback((token: string | null) => {
         const isTokenExpired = (token: string) => {
@@ -25,18 +24,14 @@ function useCredentialsValidation() {
         return isTokenValid(userAuthenticationState.authToken);
     }, [isTokenValid, userAuthenticationState.authToken])
 
-    const isRefreshTokenValid = useCallback(() => {
-        return isTokenValid(userAuthenticationState.refreshToken);
-    }, [isTokenValid, userAuthenticationState.refreshToken])
 
     const isUserLoggedIn = useCallback(() => {
-        return isAuthTokenValid() || isRefreshTokenValid();
-    }, [isAuthTokenValid, isRefreshTokenValid]);
+        return isAuthTokenValid();
+    }, [isAuthTokenValid]);
 
     return {
         isTokenValid,
         isAuthTokenValid,
-        isRefreshTokenValid,
         isUserLoggedIn,
     };
 }

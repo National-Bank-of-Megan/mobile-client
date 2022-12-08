@@ -34,11 +34,12 @@ import {PersistGate} from 'redux-persist/integration/react';
 import useCredentialsValidation from './hook/use-credentials-validator';
 import {subaccountBalanceActions} from './store/slice/subaccountBalanceSlice';
 import {userAuthenticationActions} from './store/slice/userAuthenticationSlice';
-import {useAppDispatch} from './hook/redux-hooks';
+import {useAppDispatch, useAppSelector} from './hook/redux-hooks';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from 'expo-notifications';
 import KlikTransactionContextProvider, {KlikTransactionContext} from "./store/context/klik-transaction-context";
 import {KlikTransaction} from "./model/klikTransaction";
+import PushTokenContextProvider, {PushTokenContext} from "./store/context/push-token-context";
 
 export type RootStackParamList = {
     TabsMain: undefined;
@@ -118,7 +119,6 @@ Notifications.setNotificationHandler({
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-
     const [fontsLoaded] = useFonts({
         'roboto-bold': Roboto_700Bold,
         'roboto-medium': Roboto_500Medium,
@@ -126,38 +126,6 @@ export default function App() {
         'roboto-light': Roboto_300Light,
         'roboto-thin': Roboto_100Thin,
     })
-
-    useEffect(() => {
-        const configurePushNotifications = async () => {
-            const { status } = await Notifications.getPermissionsAsync();
-            let finalStatus = status;
-
-            if (finalStatus !== 'granted') {
-                const { status } = await Notifications.requestPermissionsAsync();
-                finalStatus = status;
-            }
-
-            if (finalStatus !== 'granted') {
-                Alert.alert(
-                  'Permission required',
-                  'Push notifications need the appropriate permissions.'
-                );
-                return;
-            }
-
-            const pushTokenData = await Notifications.getExpoPushTokenAsync();
-            console.log(pushTokenData);
-
-            if (Platform.OS === 'android') {
-                Notifications.setNotificationChannelAsync('default', {
-                    name: 'default',
-                    importance: Notifications.AndroidImportance.DEFAULT,
-                });
-            }
-        }
-
-        configurePushNotifications();
-    }, []);
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -176,8 +144,11 @@ export default function App() {
 
     const CustomNavigationContainer: React.FC<{ onLayoutRootView: () => void }> = ({onLayoutRootView}) => {
         const dispatch = useAppDispatch();
-        let klikTransactionCtx = useContext(KlikTransactionContext);
+        const klikTransactionCtx = useContext(KlikTransactionContext);
+        const pushTokenCtx = useContext(PushTokenContext);
         const navigation = useNavigation();
+        const {isUserLoggedIn} = useCredentialsValidation();
+        const userAuth = useAppSelector((state) => state.userAuthentication);
 
         useEffect(() => {
             const notificationReceivedSubscription = Notifications.addNotificationReceivedListener(
@@ -202,6 +173,43 @@ export default function App() {
             };
         }, []);
 
+        useEffect(() => {
+            const configurePushNotifications = async () => {
+                const { status } = await Notifications.getPermissionsAsync();
+                let finalStatus = status;
+
+                if (finalStatus !== 'granted') {
+                    const { status } = await Notifications.requestPermissionsAsync();
+                    finalStatus = status;
+                }
+
+                if (finalStatus !== 'granted') {
+                    Alert.alert(
+                        'Permission required',
+                        'Push notifications need the appropriate permissions.'
+                    );
+                    return;
+                }
+
+                const pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+                const pushTokenValue = pushToken.split(/[\[(.*?)\]]/)[1];
+
+                console.log("This device expoPushToken value is: " + pushTokenValue);
+                pushTokenCtx.setPushToken(pushTokenValue);
+
+                if (Platform.OS === 'android') {
+                    Notifications.setNotificationChannelAsync('default', {
+                        name: 'default',
+                        importance: Notifications.AndroidImportance.DEFAULT,
+                    });
+                }
+            }
+
+            configurePushNotifications();
+        }, []);
+
+        // console.log("Auth token: " + userAuth.authToken);
+
         return (
             <Stack.Navigator screenOptions={{
                 title: 'NBM',
@@ -225,7 +233,7 @@ export default function App() {
             >
                 {
 
-                    useCredentialsValidation().isUserLoggedIn() &&
+                    isUserLoggedIn() &&
                     <>
                         <Stack.Screen name="TabsMain" component={MainNavigationTabs}/>
                         <Stack.Screen name="TransferForm" component={TransferFormScreen}/>
@@ -235,7 +243,7 @@ export default function App() {
                     </>
                 }
                 {
-                    !useCredentialsValidation().isUserLoggedIn() &&
+                    !isUserLoggedIn() &&
                     <Stack.Screen name="Login" component={LoginScreen}/>
                 }
 
@@ -243,16 +251,20 @@ export default function App() {
         )
     }
 
+
+
     return (
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <PaperProvider theme={theme}>
-                    <KlikTransactionContextProvider>
-                        <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
-                            <StatusBar style="light"/>
-                            <CustomNavigationContainer onLayoutRootView={onLayoutRootView}/>
-                        </NavigationContainer>
-                    </KlikTransactionContextProvider>
+                    <PushTokenContextProvider>
+                        <KlikTransactionContextProvider>
+                            <NavigationContainer theme={NavigationContainerTheme} onReady={onLayoutRootView}>
+                                <StatusBar style="light"/>
+                                <CustomNavigationContainer onLayoutRootView={onLayoutRootView}/>
+                            </NavigationContainer>
+                        </KlikTransactionContextProvider>
+                    </PushTokenContextProvider>
                 </PaperProvider>
             </PersistGate>
         </Provider>

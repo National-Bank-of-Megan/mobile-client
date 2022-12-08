@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Platform, StyleSheet, View} from "react-native";
 import {Button, Headline, Paragraph, Text} from "react-native-paper";
 import Colors from "../constants/colors";
@@ -6,9 +6,11 @@ import GlobalStyles from "../global-styles";
 import * as AuthSession from 'expo-auth-session';
 import AlertSnackBar, {AlertState} from "../components/alert/AlertSnackBar";
 import {useAppDispatch, useAppSelector} from "../hook/redux-hooks";
-import store from "../store/store";
 import useRegisterDevice from "../hook/use-register-device";
 import {userAuthenticationActions} from "../store/slice/userAuthenticationSlice";
+import useFetch, {RequestConfig} from "../hook/use-fetch";
+import {BEARER_PREFIX, REST_PATH_ACCOUNT} from "../constants/constants";
+import {PushTokenContext} from "../store/context/push-token-context";
 
 const LoginScreen = () => {
     const [alertState, setAlertState] = useState<AlertState>({
@@ -18,12 +20,19 @@ const LoginScreen = () => {
     })
 
     const {isLoading, error, sendRequest: sendDevice} = useRegisterDevice();
+    const {
+        isLoading: isSendRegisterExpoTokenLoading,
+        isLoadedSuccessfully: isSendRegisterExpoTokenLoaded,
+        error: sendRegisterExpoTokenError,
+        sendRequest: sendRegisterExpoToken
+    } = useFetch();
 
     const dispatch = useAppDispatch()
-    const userAuthenticationState = useAppSelector((state) => state.userAuthentication)
+    const userAuthenticationState = useAppSelector((state) => state.userAuthentication);
+    const pushTokenCtx = useContext(PushTokenContext);
+
     const auth0ClientId = "Vr2PnyOtP7YedwZ0s85DTzq9504hQrje";
     const authorizationEndpoint = "https://dev-xkmthvsw.us.auth0.com/authorize";
-    let jwtToken: string = '';
 
     const useProxy = Platform.select({web: false, default: true});
     const redirectUri = AuthSession.makeRedirectUri({useProxy});
@@ -46,6 +55,26 @@ const LoginScreen = () => {
 
 
     useEffect(() => {
+        const handleSendDeviceSuccessResponse = (jwt: string) => {
+
+            dispatch(userAuthenticationActions.setAccessToken(jwt))
+            const pushToken = pushTokenCtx.pushToken;
+
+            if (pushToken) {
+                console.log("Sending pushToken to database: " + pushToken);
+
+                const sendRegisterExpoTokenRequest: RequestConfig = {
+                    url: REST_PATH_ACCOUNT + "/device/token?expoPushToken=" + pushToken,
+                    method: "POST",
+                    headers: {
+                        "Authorization": BEARER_PREFIX + jwt
+                    }
+                };
+
+                sendRegisterExpoToken(sendRegisterExpoTokenRequest, () => {});
+            }
+        }
+
         if (result) {
             console.log('result');
             if (result.type === 'error')
@@ -58,12 +87,11 @@ const LoginScreen = () => {
             if (result.type === 'success') {
                 console.log('success')
                 console.log(result.params.id_token)
-                sendDevice(result.params.id_token, (jwt: string) => {
-                    dispatch(userAuthenticationActions.setAccessToken(jwt))
-                })
+
+                sendDevice(result.params.id_token, handleSendDeviceSuccessResponse);
             }
         }
-    }, [result, jwtToken])
+    }, [result, sendRegisterExpoToken, sendDevice, pushTokenCtx])
 
 
     return (
