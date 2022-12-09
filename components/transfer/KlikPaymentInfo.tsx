@@ -14,13 +14,13 @@ const KlikPaymentInfo: React.FC<{
 
     return (
         <View style={styles.container}>
+            <View style={styles.receiverContainer}>
+                <Text style={styles.infoHeader}>Receiver:</Text>
+                <Text style={styles.infoContentText}>{klikTransactionData.moneyReceiverAccountNumber}</Text>
+            </View>
             <View style={styles.amountContainer}>
                 <Text style={styles.infoHeader}>Amount:</Text>
                 <Text style={styles.infoContentText}>{klikTransactionData.amount + " " + currencySymbol}</Text>
-            </View>
-            <View style={styles.receiverContainer}>
-                <Text style={styles.infoHeader}>Receiver:</Text>
-                <Text style={styles.infoContentText}>{klikTransactionData.receiverName}</Text>
             </View>
             <Divider style={styles.divider}/>
         </View>

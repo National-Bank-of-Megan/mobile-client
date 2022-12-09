@@ -46,7 +46,7 @@ const BalanceOperations: React.FC<{
             color: Colors.BALANCE_OPERATIONS.EXCHANGE,
             operationName: "EXCHANGE",
             iconName: "repeat",
-            screenToNavigate: "KlikPayment",
+            screenToNavigate: "",
             propsToPass: undefined
         },
         {

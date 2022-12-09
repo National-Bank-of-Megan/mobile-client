@@ -1,4 +1,4 @@
-const KLIK_CODE_TIME = 20;
+const KLIK_CODE_TIME = 120;
 const KLIK_PAYMENT_TIME = 60;
 const BEARER_PREFIX = "Bearer ";
 const REST_PATH_ACCOUNT = 'http://192.168.0.131:80/api/account';

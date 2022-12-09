@@ -2,7 +2,7 @@ import Decimal from "decimal.js";
 
 export type KlikTransaction = {
     title: string;
-    receiverName: string;
+    moneyReceiverAccountNumber: string;
     amount: Decimal;
     currency: string;
     dateCreated: Date;

@@ -5,7 +5,7 @@ import KlikCode from "../components/transfer/KlikCode";
 import {useCallback, useState} from "react";
 import {useFocusEffect} from "@react-navigation/native";
 import useFetch, {RequestConfig} from "../hook/use-fetch";
-import {KLIK_CODE_TIME, REST_PATH_TRANSFER} from "../constants/constants";
+import {KLIK_CODE_TIME, KLIK_PAYMENT_TIME, REST_PATH_TRANSFER} from "../constants/constants";
 
 type KlikCode = {
     klikCode: string | null;
@@ -21,6 +21,16 @@ const KlikCodeScreen = () => {
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const {isLoading, error, sendRequest: fetchKlik} = useFetch();
 
+    const getKlikCodeTimeLeft = () => {
+        const oneHourInMilliseconds = 3_600_000;
+        const convertToSeconds = 1000;
+
+        const timeDifference = ((Date.now() + oneHourInMilliseconds)
+            - new Date(klik.generateDate!).getTime()) / convertToSeconds;
+
+        return KLIK_CODE_TIME - timeDifference;
+    }
+
     useFocusEffect(useCallback(() => {
         const fetchKlikRequest: RequestConfig = {
             url: REST_PATH_TRANSFER + '/klik'
@@ -31,8 +41,10 @@ const KlikCodeScreen = () => {
             setKlik({
                 klikCode: k.klikCode,
                 generateDate: k.generateDate
-            })
-            setTimeLeft((new Date(klik.generateDate!).getUTCDate()-new Date().getUTCDate()) +KLIK_CODE_TIME)
+            });
+
+            const klikCodeTimeLeft = Math.floor(getKlikCodeTimeLeft());
+            setTimeLeft(klikCodeTimeLeft);
         }
         fetchKlik(fetchKlikRequest, handleReceivedKlikCode);
     }, [klikToggle]))
@@ -53,9 +65,6 @@ const KlikCodeScreen = () => {
                     <Button mode='contained' icon="content-copy" contentStyle={styles.copyButtonContent}
                             style={styles.copyButton}
                             labelStyle={GlobalStyles.buttonLabel}>Copy code</Button>
-                    <Button mode='contained' icon="content-copy" contentStyle={styles.copyButtonContent}
-                            style={styles.copyButton}
-                            labelStyle={GlobalStyles.buttonLabel}>Subscribe to klik</Button>
                 </View>}
             {error &&
                 <View style={GlobalStyles.container}>
