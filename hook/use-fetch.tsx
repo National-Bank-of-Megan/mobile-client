@@ -50,7 +50,7 @@ function useFetch() {
             try { // NOTE: context auth token has bigger priority than the one manually provided in requestConfig.headers parameter
                 if (authTokenValid)
                     requestConfig.headers["Authorization"] = BEARER_PREFIX + userAuth.authToken;
-                else if ((!!userAuth.authToken) || (!!requestConfig.headers["Authorization"] && !isTokenValid(requestConfig.headers["Authorization"]))) { // if manually provided authorization header not valid, logout
+                else if ((!!userAuth.authToken) && (!isTokenValid(requestConfig.headers["Authorization"]))) { // if manually provided authorization header not valid, logout
                     console.log("Automatic log out...");
                     await logout()
                 }

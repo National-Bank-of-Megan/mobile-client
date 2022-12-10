@@ -29,7 +29,7 @@ const KlikProgressBar: React.FC<{
         return () => {
             clearInterval(interval);
         }
-    });
+    }, [timeLeft]);
 
     return (
         <View style={{...styles.container, marginTop: props.marginTop}}>

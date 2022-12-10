@@ -5,15 +5,17 @@ import Colors from "../constants/colors";
 import KlikPaymentInfo from "../components/transfer/KlikPaymentInfo";
 import {KLIK_PAYMENT_TIME, REST_PATH_TRANSFER} from "../constants/constants";
 import KlikProgressBar from "../components/KlikProgressBar";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {KlikTransactionContext} from "../store/context/klik-transaction-context";
 import {useNavigation} from "@react-navigation/native";
 import useFetch, {RequestConfig} from "../hook/use-fetch";
 import {AlertState} from "../components/alert/AlertSnackBar";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const KlikPaymentScreen = () => {
     let klikTransactionCtx = useContext(KlikTransactionContext);
     const navigation = useNavigation();
+    const [showTransactionInvalidScreen, setShowTransactionInvalidScreen] = useState(false);
 
     const {
         isLoading: isConfirmKlikPaymentLoading,
@@ -21,9 +23,17 @@ const KlikPaymentScreen = () => {
         sendRequest: sendConfirmKlikPaymentRequest
     } = useFetch();
 
-    if (!klikTransactionCtx.klikTransaction) {
+    if (!klikTransactionCtx.klikTransaction && !showTransactionInvalidScreen) {
+        console.log("Wracamy..." + showTransactionInvalidScreen);
+        // @ts-ignore
         navigation.navigate("TabsMain");
     }
+
+    useEffect(() => {
+        if (showTransactionInvalidScreen) {
+            klikTransactionCtx.clearKlikTransaction();
+        }
+    }, [showTransactionInvalidScreen]);
 
     const handleConfirmKlikPaymentSuccessResponse = () => {
         const alertState: AlertState = {
@@ -34,6 +44,7 @@ const KlikPaymentScreen = () => {
 
         klikTransactionCtx.clearKlikTransaction();
 
+        // @ts-ignore
         navigation.navigate("TabsMain", {
             screen: 'Transfers', params: {
                 alertState: alertState
@@ -69,9 +80,17 @@ const KlikPaymentScreen = () => {
                 <Headline style={GlobalStyles.headline}>KLIK payment</Headline>
                 <Text style={styles.textInfo}>The KLIK payment is awaiting for your confirmation</Text>
                 <KlikPaymentInfo klikTransactionData={klikTransactionCtx.klikTransaction!}/>
-                <KlikProgressBar marginTop={40} timeLeft={klikConfirmTransactionTimeLeft} duration={KLIK_PAYMENT_TIME} />
+                <KlikProgressBar marginTop={40} timeLeft={klikConfirmTransactionTimeLeft} duration={KLIK_PAYMENT_TIME}
+                                 klikToggle={{state: showTransactionInvalidScreen, setState: setShowTransactionInvalidScreen}}/>
                 <Button onPress={confirmKlikPaymentHandler} mode='contained' style={styles.confirmButton}
                         labelStyle={GlobalStyles.buttonLabel}>CONFIRM PAYMENT</Button>
+                </>
+            }
+            {!klikTransactionCtx.klikTransaction &&
+                <>
+                    <Headline style={GlobalStyles.headline}>KLIK payment</Headline>
+                    <MaterialIcons name="cancel" size={24} color="red" />
+                    <Text style={styles.textInfo}>Klik payment expired</Text>
                 </>
             }
         </View>
