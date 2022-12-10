@@ -15,7 +15,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 const KlikPaymentScreen = () => {
     let klikTransactionCtx = useContext(KlikTransactionContext);
     const navigation = useNavigation();
-    const [showTransactionInvalidScreen, setShowTransactionInvalidScreen] = useState(false);
 
     const {
         isLoading: isConfirmKlikPaymentLoading,
@@ -23,17 +22,44 @@ const KlikPaymentScreen = () => {
         sendRequest: sendConfirmKlikPaymentRequest
     } = useFetch();
 
-    if (!klikTransactionCtx.klikTransaction && !showTransactionInvalidScreen) {
-        console.log("Wracamy..." + showTransactionInvalidScreen);
-        // @ts-ignore
-        navigation.navigate("TabsMain");
+    const getKlikConfirmTransactionTimeLeft = () => {
+        const calculateKlikConfirmTransactionTimeLeft = () => {
+            const oneHourInMilliseconds = 3_600_000;
+            const convertToSeconds = 1000;
+
+            const timeDifference = ((Date.now() + oneHourInMilliseconds)
+                - new Date(klikTransactionCtx.klikTransaction!.dateCreated).getTime()) / convertToSeconds;
+
+            return KLIK_PAYMENT_TIME - timeDifference;
+        }
+
+        return klikTransactionCtx.klikTransaction ? Math.floor(calculateKlikConfirmTransactionTimeLeft()) : -1;
     }
 
+    const [timeLeft, setTimeLeft] = useState(getKlikConfirmTransactionTimeLeft() - 1);
+
     useEffect(() => {
-        if (showTransactionInvalidScreen) {
+        let interval: NodeJS.Timer;
+
+        if (timeLeft >= 0) {
+            interval = setInterval(() => {
+                setTimeLeft(previousTimeLeft => previousTimeLeft - 1)
+            }, 1000);
+        } else {
             klikTransactionCtx.clearKlikTransaction();
         }
-    }, [showTransactionInvalidScreen]);
+
+        return () => {
+            clearInterval(interval);
+        }
+    }, [timeLeft]);
+
+    useEffect(() => {
+        if (klikTransactionCtx.klikTransaction && timeLeft < 0) {
+            console.log('wielki reset')
+            setTimeLeft(getKlikConfirmTransactionTimeLeft() - 1);
+        }
+    }, [klikTransactionCtx.klikTransaction]);
 
     const handleConfirmKlikPaymentSuccessResponse = () => {
         const alertState: AlertState = {
@@ -61,17 +87,12 @@ const KlikPaymentScreen = () => {
         sendConfirmKlikPaymentRequest(sendConfirmKlikPaymentRequestContent, handleConfirmKlikPaymentSuccessResponse);
     }
 
-    const getKlikConfirmTransactionTimeLeft = () => {
-        const oneHourInMilliseconds = 3_600_000;
-        const convertToSeconds = 1000;
-
-        const timeDifference = ((Date.now() + oneHourInMilliseconds)
-            - new Date(klikTransactionCtx.klikTransaction!.dateCreated).getTime()) / convertToSeconds;
-
-        return KLIK_PAYMENT_TIME - timeDifference;
+    const handleNavigateToHomeScreen = () => {
+        // @ts-ignore
+        navigation.navigate("TabsMain", {
+            screen: 'Transfers'
+        });
     }
-
-    const klikConfirmTransactionTimeLeft = klikTransactionCtx.klikTransaction ? Math.floor(getKlikConfirmTransactionTimeLeft()) : 0;
 
     return (
         <View style={GlobalStyles.container}>
@@ -80,17 +101,19 @@ const KlikPaymentScreen = () => {
                 <Headline style={GlobalStyles.headline}>KLIK payment</Headline>
                 <Text style={styles.textInfo}>The KLIK payment is awaiting for your confirmation</Text>
                 <KlikPaymentInfo klikTransactionData={klikTransactionCtx.klikTransaction!}/>
-                <KlikProgressBar marginTop={40} timeLeft={klikConfirmTransactionTimeLeft} duration={KLIK_PAYMENT_TIME}
-                                 klikToggle={{state: showTransactionInvalidScreen, setState: setShowTransactionInvalidScreen}}/>
-                <Button onPress={confirmKlikPaymentHandler} mode='contained' style={styles.confirmButton}
+                <KlikProgressBar marginTop={40} timeLeft={timeLeft} duration={KLIK_PAYMENT_TIME}/>
+                <Button onPress={confirmKlikPaymentHandler} mode='contained' style={styles.mainButton}
                         labelStyle={GlobalStyles.buttonLabel}>CONFIRM PAYMENT</Button>
                 </>
             }
             {!klikTransactionCtx.klikTransaction &&
                 <>
                     <Headline style={GlobalStyles.headline}>KLIK payment</Headline>
-                    <MaterialIcons name="cancel" size={24} color="red" />
-                    <Text style={styles.textInfo}>Klik payment expired</Text>
+                    <View style={styles.klikExpiredContainer}>
+                        <MaterialIcons name="cancel" size={48} color="red" />
+                        <Text style={[styles.textInfo, styles.textKlikExpired]}>Klik payment has expired</Text>
+                        <Button onPress={handleNavigateToHomeScreen} mode='contained' style={[styles.mainButton, styles.navigationButton]}>EXIT</Button>
+                    </View>
                 </>
             }
         </View>
@@ -104,7 +127,20 @@ const styles = StyleSheet.create({
         color: Colors.SECONDARY,
         textAlign: 'center'
     },
-    confirmButton: {
+    mainButton: {
         marginTop: 10
+    },
+    klikExpiredContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 300
+    },
+    textKlikExpired: {
+        fontSize: 16,
+        marginTop: 10
+    },
+    navigationButton: {
+        marginTop: 20,
+        width: '60%'
     }
 });

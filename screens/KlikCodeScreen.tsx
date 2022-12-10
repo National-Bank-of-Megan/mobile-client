@@ -2,7 +2,7 @@ import GlobalStyles from "../global-styles";
 import {Button, Headline} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import KlikCode from "../components/transfer/KlikCode";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useFocusEffect} from "@react-navigation/native";
 import useFetch, {RequestConfig} from "../hook/use-fetch";
 import {KLIK_CODE_TIME, KLIK_PAYMENT_TIME, REST_PATH_TRANSFER} from "../constants/constants";
@@ -17,16 +17,16 @@ const KlikCodeScreen = () => {
         klikCode: null,
         generateDate: null
     })
-    const [klikToggle, setKlikToggle] = useState<boolean>(false)
-    const [timeLeft, setTimeLeft] = useState<number>(0);
+
+    const [timeLeft, setTimeLeft] = useState<number>(-1);
     const {isLoading, error, sendRequest: fetchKlik} = useFetch();
 
-    const getKlikCodeTimeLeft = () => {
+    const getKlikCodeTimeLeft = (k: KlikCode) => {
         const oneHourInMilliseconds = 3_600_000;
         const convertToSeconds = 1000;
 
         const timeDifference = ((Date.now() + oneHourInMilliseconds)
-            - new Date(klik.generateDate!).getTime()) / convertToSeconds;
+            - new Date(k.generateDate!).getTime()) / convertToSeconds;
 
         return KLIK_CODE_TIME - timeDifference;
     }
@@ -43,11 +43,27 @@ const KlikCodeScreen = () => {
                 generateDate: k.generateDate
             });
 
-            const klikCodeTimeLeft = Math.floor(getKlikCodeTimeLeft());
-            setTimeLeft(klikCodeTimeLeft);
+            const klikCodeTimeLeft = Math.floor(getKlikCodeTimeLeft(k));
+            setTimeLeft(klikCodeTimeLeft - 1);
         }
-        fetchKlik(fetchKlikRequest, handleReceivedKlikCode);
-    }, [klikToggle]))
+        if (timeLeft == -1) {
+            fetchKlik(fetchKlikRequest, handleReceivedKlikCode);
+        }
+    }, [timeLeft]));
+
+    useEffect(() => {
+        let interval: NodeJS.Timer;
+
+        if (timeLeft >= 0) {
+            interval = setInterval(() => {
+                setTimeLeft(previousTimeLeft => previousTimeLeft - 1)
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(interval);
+        }
+    }, [timeLeft]);
 
     return (
 
@@ -55,10 +71,8 @@ const KlikCodeScreen = () => {
             {!error &&
                 <View style={GlobalStyles.container}>
                     <Headline style={GlobalStyles.headline}>KLIK code</Headline>
-                    <Headline style={GlobalStyles.headline}>{klikToggle ? 'true' : 'false'}</Headline>
                     <KlikCode
                         code={klik.klikCode || ''}
-                        klikToggle={{state: klikToggle, setState: setKlikToggle}}
                         isLoading={isLoading}
                         timeLeft={timeLeft}
                     />

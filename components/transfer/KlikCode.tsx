@@ -8,7 +8,6 @@ import {KLIK_CODE_TIME} from "../../constants/constants";
 
 const KlikCode: React.FC<{
     code: string,
-    klikToggle: UseStateType<boolean>,
     isLoading: boolean,
     timeLeft: number,
 }> = (props) => {
@@ -24,7 +23,7 @@ const KlikCode: React.FC<{
             {
                 !props.isLoading &&
                 <>
-                    <KlikProgressBar klikToggle={props.klikToggle} timeLeft={props.timeLeft} duration={KLIK_CODE_TIME} />
+                    <KlikProgressBar timeLeft={props.timeLeft} duration={KLIK_CODE_TIME} />
                     <View style={styles.codeContainer}>
                         {!props.isLoading &&
                             <Text style={styles.codeTextStyle}>{props.code}</Text>
