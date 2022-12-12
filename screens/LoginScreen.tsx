@@ -4,6 +4,7 @@ import {Button, Headline, Paragraph, Text} from "react-native-paper";
 import Colors from "../constants/colors";
 import GlobalStyles from "../global-styles";
 import * as AuthSession from 'expo-auth-session';
+import {ResponseType} from 'expo-auth-session';
 import AlertSnackBar, {AlertState} from "../components/alert/AlertSnackBar";
 import {useAppDispatch, useAppSelector} from "../hook/redux-hooks";
 import useRegisterDevice from "../hook/use-register-device";
@@ -42,12 +43,11 @@ const LoginScreen = () => {
             redirectUri,
             clientId: auth0ClientId,
             // id_token will return a JWT token
-            responseType: "id_token",
+            responseType: ResponseType.Token,
             // retrieve the user's profile
-            scopes: ['offline_access'],
+            scopes: ["transfer","account","klik"],
             extraParams: {
-                // ideally, this will be a random value
-                nonce: 'nonce',
+                audience : "https://national-bank-of-megan-api.com"
             },
         },
         {authorizationEndpoint}
@@ -58,6 +58,7 @@ const LoginScreen = () => {
         const handleSendDeviceSuccessResponse = (jwt: string) => {
 
             dispatch(userAuthenticationActions.setAccessToken(jwt))
+            console.log(jwt)
             const pushToken = pushTokenCtx.pushToken;
 
             if (pushToken) {
@@ -87,8 +88,9 @@ const LoginScreen = () => {
             if (result.type === 'success') {
                 console.log('success')
                 console.log(result.params.id_token)
+                console.log(result.authentication?.accessToken)
 
-                sendDevice(result.params.id_token, handleSendDeviceSuccessResponse);
+                sendDevice(result.authentication!.accessToken, handleSendDeviceSuccessResponse);
             }
         }
     }, [result, sendRegisterExpoToken, sendDevice, pushTokenCtx])

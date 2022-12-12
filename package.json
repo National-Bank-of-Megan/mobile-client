@@ -22,7 +22,7 @@
     "decimal.js": "^10.4.1",
     "expo": "^47.0.3",
     "expo-app-loading": "~2.1.1",
-    "expo-auth-session": "~3.7.2",
+    "expo-auth-session": "~3.7.3",
     "expo-device": "~5.0.0",
     "expo-font": "~11.0.1",
     "expo-network": "~5.0.0",

@@ -28,15 +28,12 @@ function useRegisterDevice() {
                     'Device-Fingerprint': fingerprint,
                     'Authorization': "Bearer " + jwt
                 }
-                alert("sending")
 
                 const response = await fetch(REST_PATH_ACCOUNT + "/device/register", {
                     method: "POST",
                     headers: headers,
                     body: null,
                 });
-
-                alert(response)
 
                 if (!response.ok) {
                     if (response.status === 511) throw Error()
