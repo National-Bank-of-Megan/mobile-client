@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="timeleft's control moved to the upper component">
+    <list default="true" id="faf93614-744b-4265-a26c-171678498c4a" name="Changes" comment="Refactored timers, klik expired screen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/KlikProgressBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/KlikProgressBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/transfer/KlikCode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/KlikCodeScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LoginScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,9 +19,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
         <option value="TypeScript JSX File" />
+        <option value="tsconfig.json" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -49,13 +48,15 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/kasia/Documents/GitHub/secure-bank-mobile-client&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/kasia/Documents/GitHub/secure-bank-mobile-client/node_modules/typescript/lib&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Studia\\Semestr_VII\\secure-bank-mobile-client\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -101,6 +102,19 @@
       <workItem from="1669480145841" duration="14649000" />
       <workItem from="1669668529843" duration="8983000" />
       <workItem from="1669714074894" duration="7200000" />
+      <workItem from="1670010940559" duration="5690000" />
+      <workItem from="1670021951749" duration="1711000" />
+      <workItem from="1670359271313" duration="1590000" />
+      <workItem from="1670360898547" duration="11079000" />
+      <workItem from="1670525832917" duration="1659000" />
+      <workItem from="1670610205306" duration="4146000" />
+      <workItem from="1670635741593" duration="2687000" />
+      <workItem from="1670677365536" duration="13561000" />
+      <workItem from="1670710648032" duration="741000" />
+      <workItem from="1670798534197" duration="2863000" />
+      <workItem from="1670884493820" duration="3527000" />
+      <workItem from="1671055935259" duration="4312000" />
+      <workItem from="1671209846393" duration="2073000" />
     </task>
     <task id="LOCAL-00001" summary="get device fingerprint and auto logout">
       <created>1668635154532</created>
@@ -151,7 +165,49 @@
       <option name="project" value="LOCAL" />
       <updated>1669685517391</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;components/KlikProgressBar.tsx&#10;#&#9;components/transfer/KlikCode.tsx&#10;#&#9;constants/constants.ts">
+      <created>1670013736783</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1670013736783</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Sending expoPushToken to Backend API">
+      <created>1670526320674</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1670526320674</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Send klik payment confirmation">
+      <created>1670625889753</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1670625889753</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Send klik payment confirmation">
+      <created>1670638009970</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1670638009970</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Somewhat working klik payment handling">
+      <created>1670684934577</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1670684934577</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Refactored timers, klik expired screen">
+      <created>1670693285814</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1670693285814</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,17 +232,12 @@
     <MESSAGE value="klik progress bar integration with websockets" />
     <MESSAGE value="get klik code with regular fetch" />
     <MESSAGE value="timeleft's control moved to the upper component" />
-    <option name="LAST_COMMIT_MESSAGE" value="timeleft's control moved to the upper component" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/components/KlikProgressBar.tsx</url>
-          <line>13</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Receive push notifications" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;components/KlikProgressBar.tsx&#10;#&#9;components/transfer/KlikCode.tsx&#10;#&#9;constants/constants.ts" />
+    <MESSAGE value="Sending expoPushToken to Backend API" />
+    <MESSAGE value="Send klik payment confirmation" />
+    <MESSAGE value="Somewhat working klik payment handling" />
+    <MESSAGE value="Refactored timers, klik expired screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored timers, klik expired screen" />
   </component>
 </project>
