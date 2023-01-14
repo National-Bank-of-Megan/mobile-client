@@ -40,6 +40,7 @@ import * as Notifications from 'expo-notifications';
 import KlikTransactionContextProvider, {KlikTransactionContext} from "./store/context/klik-transaction-context";
 import {KlikTransaction} from "./model/klikTransaction";
 import PushTokenContextProvider, {PushTokenContext} from "./store/context/push-token-context";
+import {mapToKlikTransactionData} from "./common/transfer";
 
 export type RootStackParamList = {
     TabsMain: undefined;
@@ -154,8 +155,10 @@ export default function App() {
             const notificationReceivedSubscription = Notifications.addNotificationReceivedListener(
                 (notification) => {
                     console.log('NOTIFICATION RECEIVED');
-                    const receivedKlikTransactionData = notification.request.content.data as KlikTransaction;
-                    klikTransactionCtx.setKlikTransaction(receivedKlikTransactionData);
+                    const receivedData = notification.request.content.data.fields;
+                    const klikTransactionData = mapToKlikTransactionData(receivedData);
+                    console.log('DATA: ' + JSON.stringify(klikTransactionData));
+                    klikTransactionCtx.setKlikTransaction(klikTransactionData);
                 }
             );
 
