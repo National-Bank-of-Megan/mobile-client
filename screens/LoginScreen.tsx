@@ -56,11 +56,9 @@ const LoginScreen = () => {
 
     useEffect(() => {
         const handleSendDeviceSuccessResponse = (jwt: string) => {
-
             dispatch(userAuthenticationActions.setAccessToken(jwt))
             console.log(jwt)
             const pushToken = pushTokenCtx.pushToken;
-
             if (pushToken) {
                 console.log("Sending pushToken to database: " + pushToken);
 

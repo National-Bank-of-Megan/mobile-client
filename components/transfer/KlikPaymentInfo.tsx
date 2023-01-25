@@ -14,6 +14,10 @@ const KlikPaymentInfo: React.FC<{
 
     return (
         <View style={styles.container}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.infoHeader}>Title:</Text>
+                <Text style={styles.infoContentText}>{klikTransactionData.title}</Text>
+            </View>
             <View style={styles.receiverContainer}>
                 <Text style={styles.infoHeader}>Receiver:</Text>
                 <Text style={styles.infoContentText}>{klikTransactionData.moneyReceiverAccountNumber}</Text>
@@ -32,6 +36,9 @@ export default KlikPaymentInfo;
 const styles = StyleSheet.create({
     container: {
         marginTop: 40
+    },
+    titleContainer: {
+        paddingVertical: 25
     },
     amountContainer: {
         paddingVertical: 25

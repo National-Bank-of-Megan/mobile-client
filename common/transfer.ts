@@ -1,4 +1,6 @@
 import {SubAccountCurrencyBalance} from "../screens/TransfersScreen";
+import {KlikTransaction} from "../model/klikTransaction";
+import {Decimal} from "decimal.js";
 
 export const findCurrencyByName = (selectedCurrencyName: string, loadedCurrencyBalances: SubAccountCurrencyBalance[]): SubAccountCurrencyBalance | undefined => {
     return loadedCurrencyBalances.find((accountCurrencyBalance) => {
@@ -18,4 +20,14 @@ export const removeNonDigits = (text: string) => {
         text = text.replace(/0/g, '');
     }
     return text.replace(/[^\d\.]/g, "").replace(/\./, "x").replace(/\./g, "").replace(/x/, ".");
+}
+
+export const mapToKlikTransactionData = (receivedData: any): KlikTransaction => {
+    return {
+        title: receivedData.title.stringValue,
+        moneyReceiverAccountNumber: receivedData.moneyReceiverAccountNumber.stringValue,
+        amount: new Decimal(receivedData.amount.numberValue),
+        currency: receivedData.currency.stringValue,
+        dateCreated: new Date(receivedData.dateCreated.stringValue)
+    }
 }
